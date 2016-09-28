@@ -1,0 +1,123 @@
+City Irvine
+Asian Fusion 	111111
+Korean	111111111111
+Burger	1111111111
+American	1111111111111
+Seafood	111111111
+Sandwiches	111111111111111111
+Salad	11111111111
+Chinese/Taiwanese	1111111111
+Cafes	1111
+Poke		11111
+Japanese	1111111111
+Sushi	11111
+Food trucks	1111
+Coffee & tea	11
+Breakfast & Brunch	111
+Pizza	111111111
+Italian	111111
+Ramen/Noodles	111111	
+Persian	11
+Mexican	1111
+Bars	1
+Chicken Wings	1
+Juices	11	
+Indian	11
+Mediterranean 	111111
+BBQ	11
+Vegan	11
+
+City Costa Mesa
+Asian Fusion 	11
+Korean	11
+Burger	11111
+American	11111111111111111
+Seafood	111
+Sandwiches	1111111111111111
+Salad	11111
+Chinese/Taiwanese	1111
+Cafes	111
+Poke		1
+Japanese	111111111111111
+Sushi	111111
+Food trucks	
+Coffee & tea	11111
+Breakfast & Brunch	111111111
+Pizza	111111
+Italian	1111
+Ramen/Noodles	11111111
+Persian	
+Mexican	111111111111111
+Bars	11111
+Chicken Wings	11
+Fast Food	1111
+Juices	
+Indian	1
+Mediterranean 	111
+Desserts	11
+BBQ	11
+Vegan	11
+Vietnamese	1111111
+
+City Cerritos
+Japanese 1111111111111
+Hawaiian 11 
+Greek 1
+Seafood 1111
+Burgers/Sandwiches 111111111
+Café 11111
+Mexican 1111
+American 11111111
+Korean 1111111111 1
+Peruvian 1
+Thai 111
+Fusion 11111
+Vietnamese 1
+Street Vendor/Food Stand 1
+Tea/Coffee 1111111
+Juice Bar/Smoothies 1
+Breakfast & Brunch 1
+Chinese 11111 1
+BBQ 111
+Fast Food 111
+Pizzeria 111
+Wings 11
+Mongolian 1
+Filipino 111
+French 1
+Ice Cream/Desserts 1
+
+City Long Beach
+Japanese 1111
+Hawaiian 1
+Greek/Mediterranean 1111
+Seafood 11111 1
+Burgers/Sandwiches 1111111
+Café 11
+Mexican 1111111111
+American 111111111111111
+Korean 11
+Peruvian 11
+Thai 111111
+Fusion 1
+Vietnamese 
+Street Vendor/Food Stand 
+Tea/Coffee 11 
+Juice Bar/Smoothies 
+Breakfast & Brunch 1111111111
+Chinese 
+BBQ 11111
+Fast Food 1 
+Pizzeria 1111111
+Wings 111
+Mongolian 
+Filipino 
+French 1
+Ice Cream/Desserts 
+Vegetarian/Vegan 11
+Noodles 111
+Donuts 1
+Middle Eastern 11
+Cajun 1
+Bar 1
+Latin American 1

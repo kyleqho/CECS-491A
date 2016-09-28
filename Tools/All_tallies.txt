@@ -1,0 +1,74 @@
+25	Mexican 
+22	Asian 
+16	American 
+13	Vietnamese 
+10	Breakfast & Brunch 
+8	Breakfast 
+8	Ramen/Noodles 
+8	Coffee & Tea 
+7	Burgers/Sandwiches 
+7	Pizzeria 
+6	Sushi 
+6	pub/bar 
+5	Burger 
+5	Sandwiches 
+5	Coffee & tea 
+5	BBQ 
+5	Burggers/Hotdogs 
+5	Bars 
+5	Seafood 
+5	Salad 
+4	Juice Bars and Smoothies 
+4	Chinese/Taiwanese 
+4	Greek/Mediterranean 
+4	Desserts 
+4	Medditeranian/Persian 
+4	Bakeries 
+3	Ice Cream & Frozen Yogurt 
+3	Dessert 
+3	Noodles 
+3	Cafes 
+3	Fussion 
+3	Wings 
+2	Peruvian 
+2	Burgers 
+2	Vegetarian/Vegan 
+2	Vegetarian 
+2	Italian 
+2	Brunch 
+2	Tea/Coffee 
+2	Korean 
+2	Café 
+2	Asian Fusion 
+2	Halal 
+2	Japanese 
+1	Chinese 
+1	Cajun 
+1	Fusion 
+1	Chicken Wings 
+1	Indian 
+1	Latin American 
+1	Donuts 
+1	Hawaiian 
+1	Poke 
+1	British 
+1	Fast Food 
+1	Mediterranean 
+1	Greek 
+1	Barbeque 
+1	Bar 
+1	French 
+1	Thai 
+1	Pizza 
+1	Middle Eastern 
+1	Vegan 
+1	Pakistani 
+0	
+0	Juices 
+0	Juice Bar/Smoothies 
+0	Ice Cream/Desserts 
+0	Street Vendor/Food Stand 
+0	Persian 
+0	Mongolian 
+0	Filipino 
+0	Food trucks 

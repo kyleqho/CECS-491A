@@ -1,0 +1,44 @@
+City Westminster
+Vietnamese	13
+Coffee & Tea	8
+Sandwiches	6
+Seafood	5 
+Bakeries	4
+Desserts	4
+Juice Bars and Smoothies	4
+Ice Cream & Frozen Yogurt	3
+Japanese	2
+Breakfast	2
+Brunch	2
+Burgers	2
+Asian Fusion	2
+Halal	2
+Vegetarian	2
+Chicken Wings	1
+Hawaiian	1
+Donuts	1
+Chinese	1
+Vegan	1
+Mediterranean	1
+Middle Eastern	1
+American	1
+Indian	1
+Pakistani	1
+Barbeque	1
+Pizza	1
+Italian	1
+Thai	1
+
+City Orange, Santa Ana, Tustin
+American 16
+Mexican 25
+Asian 22
+Medditeranian/Persian 4
+Fussion 3
+Breakfast 8
+Burggers/Hotdogs 5
+Dessert 3
+pub/bar 6
+Sandwiches 5
+Italian 2
+British 1
