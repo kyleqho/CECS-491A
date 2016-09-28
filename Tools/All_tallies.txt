@@ -1,74 +1,74 @@
-25	Mexican 
+70	American 
+58	Mexican 
+45	Sandwiches 
+44	Japanese 
+23	Breakfast & Brunch 
+22	Seafood 
 22	Asian 
-16	American 
-13	Vietnamese 
-10	Breakfast & Brunch 
-8	Breakfast 
-8	Ramen/Noodles 
+21	Vietnamese 
+17	Korean 
+16	Salad 
+16	Pizza 
+16	Burgers/Sandwiches 
+15	Burger 
+14	Chinese/Taiwanese 
+14	Ramen/Noodles 
+13	Italian 
+12	BBQ 
+11	Sushi 
+10	Thai 
+10	Pizzeria 
+10	Breakfast 
+10	Asian Fusion 
+10	Mediterranean 
+9	Tea/Coffee 
+8	Fast Food 
 8	Coffee & Tea 
-7	Burgers/Sandwiches 
-7	Pizzeria 
-6	Sushi 
+7	Cafes 
+7	Coffee & tea 
+7	Café 
+6	Desserts 
+6	Fusion 
 6	pub/bar 
-5	Burger 
-5	Sandwiches 
-5	Coffee & tea 
-5	BBQ 
+6	Poke 
+6	Bars 
+5	Wings 
+5	Vegan 
 5	Burggers/Hotdogs 
-5	Bars 
-5	Seafood 
-5	Salad 
-4	Juice Bars and Smoothies 
-4	Chinese/Taiwanese 
-4	Greek/Mediterranean 
-4	Desserts 
+4	Hawaiian 
+4	Food trucks 
 4	Medditeranian/Persian 
+4	Indian 
 4	Bakeries 
+4	Greek/Mediterranean 
+4	Juice Bars and Smoothies 
+4	Chicken Wings 
 3	Ice Cream & Frozen Yogurt 
+3	Peruvian 
+3	Middle Eastern 
+3	Fussion 
 3	Dessert 
 3	Noodles 
-3	Cafes 
-3	Fussion 
-3	Wings 
-2	Peruvian 
+3	Filipino 
 2	Burgers 
-2	Vegetarian/Vegan 
+2	Persian 
 2	Vegetarian 
-2	Italian 
-2	Brunch 
-2	Tea/Coffee 
-2	Korean 
-2	Café 
-2	Asian Fusion 
+2	Chinese 
 2	Halal 
-2	Japanese 
-1	Chinese 
-1	Cajun 
-1	Fusion 
-1	Chicken Wings 
-1	Indian 
-1	Latin American 
-1	Donuts 
-1	Hawaiian 
-1	Poke 
+2	Brunch 
+2	Vegetarian/Vegan 
+2	Donuts 
+2	Juices 
+2	French 
 1	British 
-1	Fast Food 
-1	Mediterranean 
-1	Greek 
 1	Barbeque 
+1	Juice Bar/Smoothies 
+1	Ice Cream/Desserts 
 1	Bar 
-1	French 
-1	Thai 
-1	Pizza 
-1	Middle Eastern 
-1	Vegan 
+1	Latin American 
 1	Pakistani 
+1	Cajun 
+1	Street Vendor/Food Stand 
+1	Greek 
+1	Mongolian 
 0	
-0	Juices 
-0	Juice Bar/Smoothies 
-0	Ice Cream/Desserts 
-0	Street Vendor/Food Stand 
-0	Persian 
-0	Mongolian 
-0	Filipino 
-0	Food trucks 

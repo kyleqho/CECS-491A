@@ -37,9 +37,9 @@ def tagCounter(fileName, metaTagDict):
 		#For existing metatags, add onto the current amount
 		if metatag in metaTagDict.keys():
 			metaTagDict[metatag] = metaTagDict[metatag] + int(count)
-
-		#For new metatags, record the count
-		metaTagDict[metatag] = int(count)
+		else:
+			#For new metatags, record the count
+			metaTagDict[metatag] = int(count)
 
 	return metaTagDict
 
@@ -68,9 +68,9 @@ def tallyCounter(fileName, metaTagDict):
 		#For existing metatags, add onto the current amount
 		if metatag in metaTagDict.keys():
 			metaTagDict[metatag] = metaTagDict[metatag] + int(count)
-
-		#For new metatags, record the count
-		metaTagDict[metatag] = int(count)
+		else:
+			#For new metatags, record the count
+			metaTagDict[metatag] = int(count)
 
 	return metaTagDict
 
