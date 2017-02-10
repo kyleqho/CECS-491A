@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Find A Feast</string>
+    <string name="consumerKey">bS_bqq2XMlZowRME0fZDDQ</string>
+    <string name="consumerSecret">YCnOjb9K0uUf-aA8dACC6FRBI_c</string>
+    <string name="token">x5gUoR2qbKkec8JZsQlNoBo6X_eUjATJ</string>
+    <string name="tokenSecret">NDFaCMHmxE8fsl4mdhU1jefmVyM</string>
+
 </resources>

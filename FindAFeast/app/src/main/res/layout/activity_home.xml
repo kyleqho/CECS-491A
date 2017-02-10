@@ -7,11 +7,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kevin.yelpapi.MainActivity"
+    tools:context="com.kajak.findafeast.MainActivity"
     android:background="#0966ff">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Find A Feast"
         android:textSize="40dp"
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:text="Tap the screen to start"
         android:id="@+id/btnStart"
-        android:layout_below="@+id/ivLogo"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
