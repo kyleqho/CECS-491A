@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.yelp.clientlib.entities.Location;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity{
 
             //find user coordinates
             CoordinateOptions coordinate = CoordinateOptions.builder()
-                    .latitude(37.7577)
-                    .longitude(-122.4376).build();
+                    .latitude(33.7812393)
+                    .longitude(-118.11513009999999).build();
             Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
             Response<SearchResponse> response = null;
             try {
@@ -83,9 +85,17 @@ public class MainActivity extends AppCompatActivity{
             } catch (IOException e){
                 e.printStackTrace();
             }
-            if (response != null){
-                Log.v("Businesses", response.body().businesses().toString());
-                //response.body().businesses().get(0).name();
+            if (response != null) {
+                for (int i = 0; i < 9; i++) {
+
+                    //Log.v("Businesses", response.body().businesses().get(i).imageUrl());
+                    //Log.v("Businesses", response.body().businesses().get(i).name());
+                    //Log.v("Businesses", response.body().businesses().get(i).location().toString());
+                    System.out.println(response.body().businesses().get(i).location().coordinate().latitude());
+
+                    System.out.println(i);
+                    //response.body().businesses().get(0).name();
+                }
             }
             return null;
         }
