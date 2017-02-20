@@ -1,12 +1,12 @@
 package com.kajak.findafeast;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.connection.YelpAPI;
@@ -60,44 +60,62 @@ public class MainActivity extends AppCompatActivity{
 
         //search terms
         mParams.put("term", "food");
+        mParams.put("price", "1,2,3");
 
-        new FetchPictures().execute();
+        mBtnStart.setOnClickListener(handler);
+
+        //new FetchPictures().execute();
     }
 
-    class FetchPictures extends AsyncTask<String, String, String> {
-
-        @Override
-        protected void onProgressUpdate(String... values){
-            super.onProgressUpdate(values);
+    View.OnClickListener handler = new View.OnClickListener(){
+        public void onClick(View v){
+            Intent intent = new Intent(MainActivity.this, List.class);
+            startActivity(intent);
         }
+    };
 
-        @Override
-        protected String doInBackground(String... params) {
-
-            //find user coordinates
-            CoordinateOptions coordinate = CoordinateOptions.builder()
-                    .latitude(33.7812393)
-                    .longitude(-118.11513009999999).build();
-            Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
-            Response<SearchResponse> response = null;
-            try {
-                response = call.execute();
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-            if (response != null) {
-                for (int i = 0; i < 9; i++) {
-
-                    //Log.v("Businesses", response.body().businesses().get(i).imageUrl());
-                    //Log.v("Businesses", response.body().businesses().get(i).name());
-                    //Log.v("Businesses", response.body().businesses().get(i).location().toString());
-                    System.out.println(response.body().businesses().get(i).location().coordinate().latitude());
-
-                    System.out.println(i);
-                    //response.body().businesses().get(0).name();
-                }
-            }
-            return null;
-        }
-    }
+//    class FetchPictures extends AsyncTask<String, String, String> {
+//
+//        @Override
+//        protected void onProgressUpdate(String... values){
+//            super.onProgressUpdate(values);
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            //find user coordinates
+//            CoordinateOptions coordinate = CoordinateOptions.builder()
+//                    .latitude(33.782582)
+//                    .longitude(-118.122398).build();
+//            Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
+//            Response<SearchResponse> response = null;
+//            try {
+//                response = call.execute();
+//            } catch (IOException e){
+//                e.printStackTrace();
+//            }
+//            if (response != null) {
+//                for (int i = 0; i < 9; i++) {
+//
+//                    //Log.v("Businesses", response.body().businesses().get(i).imageUrl());
+//                    Log.v("Businesses", response.body().businesses().get(i).name());
+//
+//                    System.out.println(i);
+//                    //Log.v("Businesses", response.body().businesses().get(i).location().toString());
+//                    //System.out.println(response.body().businesses().get(i).location().coordinate().latitude());
+//                    for (int j = 0; j < 3; j++) {
+//                        System.out.println(response.body().businesses().get(i).categories().get(j));
+//
+//                  }
+//
+//                    System.out.println(response.body().businesses().get(0));
+//
+//                    System.out.println("%");
+//                    //response.body().businesses().get(0).name();
+//                }
+//            }
+//            return null;
+//        }
+//    }
 }
