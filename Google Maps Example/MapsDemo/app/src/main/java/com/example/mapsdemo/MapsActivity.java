@@ -1,13 +1,24 @@
 package com.example.mapsdemo;
 
 import android.Manifest;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.StrictMode;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -22,6 +33,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.yelp.clientlib.connection.YelpAPI;
+import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.yelp.clientlib.entities.SearchResponse;
+import com.yelp.clientlib.entities.options.CoordinateOptions;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -32,10 +54,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
     private Marker mCurrLocationMarker;
     private MarkerOptions marker;
     private LocationRequest mLocationRequest;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
+    YelpAPIFactory mApiFactory;
+    Location yelpLocation;
+    double yelpLong, yelpLat;
+    YelpAPI mYelpAPI;
+    Map<String, String> mParams;
+    private GetCurrentLocation gct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +74,182 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
+        gct = new GetCurrentLocation(MapsActivity.this);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        //yelpLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        mApiFactory = new YelpAPIFactory(
+                getString(R.string.consumerKey),
+                getString(R.string.consumerSecret),
+                getString(R.string.token),
+                getString(R.string.tokenSecret));
+
+        //create yelp object
+        mYelpAPI = mApiFactory.createAPI();
+
+        //map of params
+        mParams = new HashMap<>();
+
+        //search terms
+        mParams.put("term", "food");
+
+        if(gct.canGetLocation()){
+            yelpLong = gct.getLongitude();
+            yelpLat = gct.getLatitude();
+        }
+//        try {
+//            String test= new FetchPictures().execute().get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
+    public class GetCurrentLocation extends Service implements LocationListener{
+        public LocationManager locationManager;
+        private Context cntxt;
+        Location yelpLocation;
+        double yelp_lat, yelp_long;
+        boolean checkGPS = false;
+        boolean checkNetwork = false;
+        boolean canGetLocation = false;
+
+        public GetCurrentLocation(Context cntxt){
+            this.cntxt = cntxt;
+            GetLocation();
+        }
+
+        private Location GetLocation(){
+            try{
+                Criteria criteria = new Criteria();
+                locationManager = (LocationManager) cntxt.getSystemService(Context.LOCATION_SERVICE);
+                checkGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                checkNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                String provider = locationManager.getBestProvider(criteria, true);
+
+                if(!checkGPS && !checkNetwork)
+                    Toast.makeText(cntxt, "No Service Provider Available", Toast.LENGTH_SHORT).show();
+                else{
+                    this.canGetLocation=true;
+                    //Get location from network provider
+                    if(checkNetwork){
+                        Toast.makeText(cntxt, "Network", Toast.LENGTH_SHORT).show();
+                        try{
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                                    MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (android.location.LocationListener) this);
+                            Log.d("Network", "Network");
+                            yelpLocation = locationManager.getLastKnownLocation(provider);
+                            if(locationManager != null){
+                                onLocationChanged(yelpLocation);
+                            }
+                            if(yelpLocation != null){
+                                yelp_lat = yelpLocation.getLatitude();
+                                yelp_long = yelpLocation.getLongitude();
+                            }
+                        }catch (SecurityException e){}
+                    }
+                }
+
+                if(checkGPS){
+                    Toast.makeText(cntxt, "GPS", Toast.LENGTH_SHORT).show();
+                    if(yelpLocation == null){
+                        try{
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, (android.location.LocationListener) this);
+                            Log.d("GPS Enabled", "GPS Enabled");
+                            if(locationManager != null)
+                                yelpLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if(yelpLocation != null){
+                                yelp_lat = yelpLocation.getLatitude();
+                                yelp_long = yelpLocation.getLongitude();
+                            }
+                        }catch(SecurityException e){}
+                    }
+                }
+
+            }catch(Exception e){}
+            return yelpLocation;
+        }
+
+
+        @Nullable
+        @Override
+        public IBinder onBind(Intent intent) {
+            return null;
+        }
+
+        @Override
+        public void onLocationChanged(Location location) {
+        }
+
+        public boolean canGetLocation() {
+            return this.canGetLocation;
+        }
+
+        public double getLongitude() {
+            if(yelpLocation != null)
+                yelp_long = yelpLocation.getLongitude();
+            return yelp_long;
+        }
+
+        public double getLatitude() {
+            if(yelpLocation != null)
+                yelp_lat = yelpLocation.getLatitude();
+            return yelp_lat;
+        }
+    }
+
+    class FetchPictures extends AsyncTask<String, String, String> {
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            //find user coordinates
+            CoordinateOptions coordinate = CoordinateOptions.builder()
+                    .latitude(yelpLat)
+                    .longitude(yelpLong).build();
+            Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
+            Response<SearchResponse> response = null;
+            try {
+                response = call.execute();
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+            if (response != null) {
+                double rest_lat = response.body().businesses().get(1).location().coordinate().latitude();
+                double rest_long = response.body().businesses().get(1).location().coordinate().longitude();
+                double rest_distance = response.body().businesses().get(1).distance();
+                double rating = response.body().businesses().get(1).rating();
+                System.out.println(""+rest_lat+" "+rest_long+" "+rest_distance+" "+rating);
+                String rest_name =response.body().businesses().get(1).name();
+                LatLng latLng = new LatLng(rest_lat, rest_long);
+                MarkerOptions markOpts = new MarkerOptions();
+                markOpts.position(latLng)
+                        .title(rest_name)
+                        .snippet(Double.toString(rating))
+                        .snippet(Double.toString(rest_distance))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                mMap.addMarker(markOpts);
+            }
+            return null;
+        }
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -103,7 +297,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
 
-        mLastLocation = location;
+        Location mLastLocation = location;
         if (mCurrLocationMarker != null) {
             mCurrLocationMarker.remove();
         }
@@ -115,9 +309,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title("Current Position")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         mCurrLocationMarker = mMap.addMarker(markerOptions);
-        //move map camera
+
+        CoordinateOptions coordinate = CoordinateOptions.builder()
+                .latitude(yelpLat)
+                .longitude(yelpLong).build();
+        Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
+        Response<SearchResponse> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        if (response != null) {
+            double rest_lat = response.body().businesses().get(1).location().coordinate().latitude();
+            double rest_long = response.body().businesses().get(1).location().coordinate().longitude();
+            double rest_distance = response.body().businesses().get(1).distance();
+            double rating = response.body().businesses().get(1).rating();
+            System.out.println("" + rest_lat + " " + rest_long + " " + rest_distance + " " + rating);
+            String rest_name = response.body().businesses().get(1).name();
+            LatLng yelp_latLng = new LatLng(rest_lat, rest_long);
+            MarkerOptions markOpts = new MarkerOptions();
+            markOpts.position(yelp_latLng)
+                    .title(rest_name)
+                    .snippet(Double.toString(rating))
+                    .snippet(Double.toString(rest_distance))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mMap.addMarker(markOpts);
+        }
+
+
+            //move map camera
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),16.5f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),13.5f));
 
         //stop location updates
         if (mGoogleApiClient != null) {
@@ -133,7 +356,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .title("Chosen Location")
                         .snippet("Tap here to remove");
                 mMap.addMarker(marker);
-
             }
         });
 
