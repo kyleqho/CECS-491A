@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MapsDemo</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="consumerKey">zvQczJzoWyryc1AYQr9R3w</string>
+    <string name="consumerSecret">l2RLVSbb2r-367-gd1wqsuuUNas</string>
+    <string name="token">KG3BPL9N6KQTQYDZxMAu1dDu8DkzmPEN</string>
+    <string name="tokenSecret">7kfVIOlh3OKhfI-6umFoD5z5rFw</string>
+
+</resources>
