@@ -40,8 +40,8 @@ public class ListAdapter extends ArrayAdapter<String> {
         TextView txtDistance = (TextView) rowView.findViewById(R.id.restaurant_distance);
 
         txtTitle.setText(itemname[position]);
-        txtRating.setText("Rating: "+rating[position].toString()+"/5");
-        txtDistance.setText("Distance: "+distance[position].toString()+" mi");
+        //txtRating.setText("Rating: "+rating[position].toString()+"/5");
+        //txtDistance.setText("Distance: "+distance[position].toString()+" mi");
         Picasso
                 .with(this.context)
                 .load(imgid[position])

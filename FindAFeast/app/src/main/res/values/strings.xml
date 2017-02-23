@@ -4,5 +4,6 @@
     <string name="consumerSecret">YCnOjb9K0uUf-aA8dACC6FRBI_c</string>
     <string name="token">x5gUoR2qbKkec8JZsQlNoBo6X_eUjATJ</string>
     <string name="tokenSecret">NDFaCMHmxE8fsl4mdhU1jefmVyM</string>
-
+    <string name="title_activity_maps">Map</string>
+    <string name="google_maps_key">AIzaSyACnOmu51G4qur_lwQ3EVh_6sc4vDvC_kE</string>
 </resources>

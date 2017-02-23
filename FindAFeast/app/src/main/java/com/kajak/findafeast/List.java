@@ -1,6 +1,7 @@
 package com.kajak.findafeast;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -42,6 +43,7 @@ public class List extends AppCompatActivity {
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
     Map<String, String> mParams;
+    MapsActivity mAct;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,8 @@ public class List extends AppCompatActivity {
             list.setAdapter(adapt);
 
     }
+
+
     class FetchPictures extends AsyncTask<String, String, String> {
 
         @Override
