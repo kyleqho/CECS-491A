@@ -10,15 +10,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.location.Location;
 
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
+import com.google.android.gms.location.LocationListener;
+
 
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -31,12 +37,16 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Kevin on 2/19/17.
  */
-public class List extends AppCompatActivity {
+public class List extends AppCompatActivity implements LocationListener {
     ListView list;
-    String[] name = new String[10];
-    String[] img = new String[10];
-    Double[] rating = new Double[10];
-    Double[] distance = new Double[10];
+    LatLng current_position;
+    ArrayList<String> name = new ArrayList<String>();
+    ArrayList<String> img = new ArrayList<String>();
+    ArrayList<Double> rating = new ArrayList<Double>();
+    ArrayList<Double> distance = new ArrayList<Double>();
+    ArrayList<LatLng> coordinates = new ArrayList<>();
+    ArrayList<ArrayList<String>> addresses = new ArrayList<>();
+
     private final double METER_MILE_CONVERSION = 1609.344;
 
 
@@ -65,11 +75,11 @@ public class List extends AppCompatActivity {
 
         //search terms
         mParams.put("term", "food");
-        mParams.put("price", "1,2,3");
 
 
         //new FetchPictures().execute();
 //
+
 //        try {
 //            sleep(10000);
 //        } catch (InterruptedException e) {
@@ -87,7 +97,19 @@ public class List extends AppCompatActivity {
         ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
             list = (ListView) findViewById(R.id.list);
             list.setAdapter(adapt);
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    addToSelection(position);
+            }
+        });
 
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLatitude());
+        latLng = current_position;
     }
 
 
@@ -103,8 +125,8 @@ public class List extends AppCompatActivity {
 
             //find user coordinates
             CoordinateOptions coordinate = CoordinateOptions.builder()
-                    .latitude(33.782582)
-                    .longitude(-118.122398).build();
+                    .latitude(current_position.latitude)
+                    .longitude(current_position.longitude).build();
             Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
             Response<SearchResponse> response = null;
             try {
@@ -114,25 +136,15 @@ public class List extends AppCompatActivity {
             }
             if (response != null) {
                 for (int i = 0; i < 10; i++) {
+                    img.add(response.body().businesses().get(i).imageUrl());
+                    name.add(response.body().businesses().get(i).name());
+                    rating.add(response.body().businesses().get(i).rating());
+                    distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
+                    coordinates.add(new LatLng(
+                            response.body().businesses().get(i).location().coordinate().latitude(),
+                            response.body().businesses().get(i).location().coordinate().longitude()));
 
-                    //Log.v("Businesses", response.body().businesses().get(i).imageUrl());
-                    //Log.v("Businesses", response.body().businesses().get(i).name());
-
-//                    System.out.println(i);
-                    //Log.v("Businesses", response.body().businesses().get(i).location().toString());
-                    //System.out.println(response.body().businesses().get(i).location().coordinate().latitude());
-//                    for (int j = 0; j < 3; j++) {
-////                        System.out.println(response.body().businesses().get(i).categories().get(j));
-//
-//                    }
-                    img[i] = response.body().businesses().get(i).imageUrl();
-                    name[i] = response.body().businesses().get(i).name();
-                    rating[i] = response.body().businesses().get(i).rating();
-                    distance[i] = MeterToMileConverter(response.body().businesses().get(i).distance());
-                   // System.out.println(response.body().businesses().get(0));
-
-                    //System.out.println("%");
-                    //response.body().businesses().get(0).name();
+                    addresses.add(response.body().businesses().get(i).location().address());
                 }
             }
 
@@ -149,4 +161,9 @@ public class List extends AppCompatActivity {
         return Double.valueOf(dFormat.format(miles));
     }
 
+    public void addToSelection(int pos) {
+        ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
+        rest.add(new Restaurant(name.get(pos), coordinates.get(pos), addresses.get(pos), rating.get(pos)));
+        Log.v("test", rest.toString());
+    }
 }

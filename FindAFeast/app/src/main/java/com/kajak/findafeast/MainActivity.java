@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
 
     View.OnClickListener handler = new View.OnClickListener(){
         public void onClick(View v){
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            Intent intent = new Intent(MainActivity.this, List.class);
             startActivity(intent);
         }
     };

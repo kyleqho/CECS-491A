@@ -10,16 +10,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class ListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final String[] itemname;
-    private final String[] imgid;
-    private final Double[] rating;
-    private final Double[] distance;
+    private final ArrayList<String> itemname;
+    private final ArrayList<String> imgid;
+    private final ArrayList<Double> rating;
+    private final ArrayList<Double> distance;
 
-    public ListAdapter(Activity context, String[] itemname, String[] imgid,
-                       Double[] rating, Double[] distance) {
+    public ListAdapter(Activity context, ArrayList<String> itemname, ArrayList<String> imgid,
+                       ArrayList<Double> rating, ArrayList<Double> distance) {
         super(context, R.layout.mylist, itemname);
         // TODO Auto-generated constructor stub
 
@@ -39,12 +41,12 @@ public class ListAdapter extends ArrayAdapter<String> {
         TextView txtRating = (TextView) rowView.findViewById(R.id.restaurant_rating);
         TextView txtDistance = (TextView) rowView.findViewById(R.id.restaurant_distance);
 
-        txtTitle.setText(itemname[position]);
+        txtTitle.setText(itemname.get(position));
         //txtRating.setText("Rating: "+rating[position].toString()+"/5");
         //txtDistance.setText("Distance: "+distance[position].toString()+" mi");
         Picasso
                 .with(this.context)
-                .load(imgid[position])
+                .load(imgid.get(position))
                 .into(imageView);
         return rowView;
 
