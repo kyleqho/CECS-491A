@@ -37,7 +37,7 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Kevin on 2/19/17.
  */
-public class List extends AppCompatActivity implements LocationListener {
+public class ListActivity extends AppCompatActivity{
     ListView list;
     LatLng current_position;
     ArrayList<String> name = new ArrayList<String>();
@@ -60,7 +60,6 @@ public class List extends AppCompatActivity implements LocationListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
 
-
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
                 getString(R.string.consumerSecret),
@@ -76,8 +75,12 @@ public class List extends AppCompatActivity implements LocationListener {
         //search terms
         mParams.put("term", "food");
 
+        Intent getIntent = getIntent();
+        current_position = new LatLng(
+                getIntent.getDoubleExtra("latitude", 0),
+                getIntent.getDoubleExtra("longitude", 0));
 
-        //new FetchPictures().execute();
+//        new FetchPictures().execute();
 //
 
 //        try {
@@ -105,12 +108,12 @@ public class List extends AppCompatActivity implements LocationListener {
         });
 
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLatitude());
-        latLng = current_position;
-    }
+//
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        LatLng latLng = new LatLng(location.getLatitude(), location.getLatitude());
+//        latLng = current_position;
+//    }
 
 
     class FetchPictures extends AsyncTask<String, String, String> {

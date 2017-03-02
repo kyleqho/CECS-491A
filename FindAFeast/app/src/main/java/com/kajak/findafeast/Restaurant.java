@@ -23,9 +23,9 @@ public class Restaurant {
         this.rating = rating;
     }
 
-    public Restaurant(String name, double lat, double lon, ArrayList<String> address, double rating) {
+    public Restaurant(String name, double lat, double lng, ArrayList<String> address, double rating) {
         this.name = name;
-        latLng = new LatLng(lat, lon);
+        latLng = new LatLng(lat, lng);
         this.address = address;
         this.rating = rating;
     }
@@ -36,9 +36,9 @@ public class Restaurant {
         this.address = address;
     }
 
-    public Restaurant(String name, double lat, double lon, ArrayList<String> address) {
+    public Restaurant(String name, double lat, double lng, ArrayList<String> address) {
         this.name = name;
-        latLng = new LatLng(lat, lon);
+        latLng = new LatLng(lat, lng);
         this.address = address;
     }
 
@@ -68,7 +68,7 @@ public class Restaurant {
 
     @Override
     public String toString() {
-        return "name: " + name + "\t(lat, lon): " + latLng.toString() + "\taddress: " + address.toString()
+        return "name: " + name + "\t(lat, lng): " + latLng.toString() + "\taddress: " + address.toString()
                 + "\trating: " + rating;
     }
 }

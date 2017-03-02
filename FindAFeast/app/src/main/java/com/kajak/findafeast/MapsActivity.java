@@ -2,6 +2,7 @@ package com.kajak.findafeast;
 
 import android.*;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -81,6 +82,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //search terms
         mParams.put("term", "food");
+
+
     }
 
     public boolean checkLocationPermission(){
@@ -161,34 +164,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Place current location marker
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
         CoordinateOptions coordinate = CoordinateOptions.builder()
                 .latitude(latLng.latitude)
                 .longitude(latLng.longitude).build();
-        Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
-        Response<SearchResponse> response = null;
-        try {
-            response = call.execute();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        if (response != null) {
-            for(int i=0;i<10;i++) {
-                double rest_lat = response.body().businesses().get(i).location().coordinate().latitude();
-                double rest_long = response.body().businesses().get(i).location().coordinate().longitude();
-                String rest_distance = response.body().businesses().get(i).location().address().toString();
-                double rating = response.body().businesses().get(i).rating();
-                String rest_name = response.body().businesses().get(i).name();
-                LatLng yelplatLng = new LatLng(rest_lat, rest_long);
-                MarkerOptions markOpts = new MarkerOptions();
-                markOpts.position(yelplatLng)
-                        .title(rest_name)
-                        .snippet(Double.toString(rating))
-                        .snippet(rest_distance)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                Marker yelpMarker = mMap.addMarker(markOpts);
-            }
-        }
+//        Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
+//        Response<SearchResponse> response = null;
+//        try {
+//            response = call.execute();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
+//        if (response != null) {
+//            for(int i=0;i<10;i++) {
+//                double rest_lat = response.body().businesses().get(i).location().coordinate().latitude();
+//                double rest_long = response.body().businesses().get(i).location().coordinate().longitude();
+//                String rest_distance = response.body().businesses().get(i).location().address().toString();
+//                double rating = response.body().businesses().get(i).rating();
+//                String rest_name = response.body().businesses().get(i).name();
+//                LatLng yelplatLng = new LatLng(rest_lat, rest_long);
+ //               MarkerOptions markOpts = new MarkerOptions();
+//                markOpts.position(yelplatLng)
+//                        .title(rest_name)
+//                        .snippet(Double.toString(rating))
+//                        .snippet(rest_distance)
+//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+//                Marker yelpMarker = mMap.addMarker(markOpts);
+//            }
+//        }
 
 
         //move map camera
@@ -199,6 +201,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
+
+        Intent intent = new Intent(MapsActivity.this, List.class);
+        intent.putExtra("latitude", latLng.latitude);
+        intent.putExtra("longitude", latLng.longitude);
+        startActivity(intent);
     }
 
     @Override
