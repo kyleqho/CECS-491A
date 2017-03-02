@@ -202,7 +202,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
 
-        Intent intent = new Intent(MapsActivity.this, List.class);
+        Intent intent = new Intent(MapsActivity.this, ListActivity.class);
         intent.putExtra("latitude", latLng.latitude);
         intent.putExtra("longitude", latLng.longitude);
         startActivity(intent);
