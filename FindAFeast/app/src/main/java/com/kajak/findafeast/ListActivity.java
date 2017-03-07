@@ -1,25 +1,21 @@
 package com.kajak.findafeast;
 
-import android.content.DialogInterface;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.location.Location;
 
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
-import com.squareup.picasso.Picasso;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
-import com.google.android.gms.location.LocationListener;
 
 
 import java.io.IOException;
@@ -31,8 +27,6 @@ import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static java.lang.Thread.sleep;
 
 /**
  * Created by Kevin on 2/19/17.
@@ -49,16 +43,23 @@ public class ListActivity extends AppCompatActivity{
 
     private final double METER_MILE_CONVERSION = 1609.344;
 
-
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
     Map<String, String> mParams;
     MapsActivity mAct;
+    private Fragment googleMapsAPIFragment;
+    private FragmentTransaction fragTransaction;
+    private final String googleMapsAPIFragment_tag = "google_maps_utility";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
+
+        googleMapsAPIFragment =  new GoogleMapsAPIUtility();
+        fragTransaction = getFragmentManager().beginTransaction();
+        fragTransaction.add(googleMapsAPIFragment, googleMapsAPIFragment_tag).commit();
+        getFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
 
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
@@ -80,15 +81,6 @@ public class ListActivity extends AppCompatActivity{
                 getIntent.getDoubleExtra("latitude", 0),
                 getIntent.getDoubleExtra("longitude", 0));
 
-//        new FetchPictures().execute();
-//
-
-//        try {
-//            sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
         try {
             String str_result= new FetchPictures().execute().get();
         } catch (InterruptedException e) {
@@ -108,13 +100,6 @@ public class ListActivity extends AppCompatActivity{
         });
 
     }
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        LatLng latLng = new LatLng(location.getLatitude(), location.getLatitude());
-//        latLng = current_position;
-//    }
-
 
     class FetchPictures extends AsyncTask<String, String, String> {
 
@@ -150,8 +135,6 @@ public class ListActivity extends AppCompatActivity{
                     addresses.add(response.body().businesses().get(i).location().address());
                 }
             }
-
-
 
             return null;
         }
