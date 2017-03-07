@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -33,6 +35,7 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +50,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Marker mCurrentLocation;
+
+    Button findBtn;
+    LatLng latLng;
+    ArrayList<Restaurant> rest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
+
+            rest = (ArrayList<Restaurant>) getIntent().getSerializableExtra("selected");
+//        if(!rest.isEmpty())
+//            mark();
+
+
+
+
+        findBtn = (Button) findViewById(R.id.btnFind);
+        findBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MapsActivity.this, ListActivity.class);
+                intent.putExtra("latitude", latLng.latitude);
+                intent.putExtra("longitude", latLng.longitude);
+                startActivity(intent);
+            }
+        });
     }
 
     public boolean checkLocationPermission(){
@@ -142,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        latLng = new LatLng(location.getLatitude(), location.getLongitude());
         CoordinateOptions coordinate = CoordinateOptions.builder()
                 .latitude(latLng.latitude)
                 .longitude(latLng.longitude).build();
@@ -155,12 +180,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mGoogleApiClient != null) {
             LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         }
-
-        // Get current location and pass it to the Yelp query
-        Intent intent = new Intent(MapsActivity.this, ListActivity.class);
-        intent.putExtra("latitude", latLng.latitude);
-        intent.putExtra("longitude", latLng.longitude);
-        startActivity(intent);
     }
 
     @Override
@@ -185,5 +204,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void mark(){
+        MarkerOptions markOpts = new MarkerOptions();
+        markOpts.position(rest.get(0).getLatLng())
+                .title(rest.get(0).getName())
+                //.snippet(Double.toString(rating))
+                //.snippet(rest_distance)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        Marker yelpMarker = mMap.addMarker(markOpts);
     }
 }

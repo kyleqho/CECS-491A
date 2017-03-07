@@ -16,6 +16,7 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
 
     Button mBtnStart;
     ImageView mIVLogo;
+    ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity{
                 .with(this)
                 .load("https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/14906914_670103693146671_3815703461570936983_n.jpg?oh=d27a59e838eebc70f1f2f9412ec359b9&oe=590CA285")
                 .into(mIVLogo);
+
+        rest.clear();
     }
 
     View.OnClickListener handler = new View.OnClickListener(){
