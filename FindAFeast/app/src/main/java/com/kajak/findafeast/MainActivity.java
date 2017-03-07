@@ -16,6 +16,7 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity{
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
     Map<String, String> mParams;
+    ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity{
         mParams.put("price", "1,2,3");
 
         mBtnStart.setOnClickListener(handler);
+
+        rest.clear();
 
         //new FetchPictures().execute();
     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.location.Location;
+import android.widget.Toast;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,6 +47,8 @@ public class ListActivity extends AppCompatActivity{
     ArrayList<Double> distance = new ArrayList<Double>();
     ArrayList<LatLng> coordinates = new ArrayList<>();
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
+    ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
+    ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
 
     private final double METER_MILE_CONVERSION = 1609.344;
 
@@ -97,13 +100,17 @@ public class ListActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
+        final Intent startMap = new Intent(ListActivity.this, MapsActivity.class);
+
         ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
             list = (ListView) findViewById(R.id.list);
             list.setAdapter(adapt);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    addToSelection(position);
+                addToSelection(position);
+                //startMap.putExtra("selected", rest);
+                //startActivity(startMap);
             }
         });
 
@@ -148,7 +155,9 @@ public class ListActivity extends AppCompatActivity{
                             response.body().businesses().get(i).location().coordinate().longitude()));
 
                     addresses.add(response.body().businesses().get(i).location().address());
+                    rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
                 }
+
             }
 
 
@@ -165,8 +174,13 @@ public class ListActivity extends AppCompatActivity{
     }
 
     public void addToSelection(int pos) {
-        ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
-        rest.add(new Restaurant(name.get(pos), coordinates.get(pos), addresses.get(pos), rating.get(pos)));
-        Log.v("test", rest.toString());
+
+            if (!selectedRest.contains(rest.get(pos))) {
+                Toast.makeText(this, "Added into list", Toast.LENGTH_SHORT).show();
+                selectedRest.add(rest.get(pos));
+            } else
+                Toast.makeText(this, "Already in list", Toast.LENGTH_SHORT).show();
+
+        Log.v("test", selectedRest.toString());
     }
 }
