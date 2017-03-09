@@ -41,6 +41,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import android.os.Parcelable;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener
 , GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
@@ -56,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Button findBtn;
     LatLng latLng;
     ArrayList<Restaurant> rest;
+    Bundle bdl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +74,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-
-            rest = (ArrayList<Restaurant>) getIntent().getSerializableExtra("selected");
+        bdl = getIntent().getExtras();
+        rest = bdl.getParcelableArrayList("selected");
+        //rest = (ArrayList<Restaurant>) getIntent().getSerializableExtra("selected");
 //        if(!rest.isEmpty())
-//            mark();
+        //    mark();
 
 
 
@@ -190,6 +193,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CoordinateOptions coordinate = CoordinateOptions.builder()
                 .latitude(latLng.latitude)
                 .longitude(latLng.longitude).build();
+        MarkerOptions markOpts = new MarkerOptions();
+        markOpts.position(rest.get(0).getLatLng())
+                .title(rest.get(0).getName())
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        Marker yelpMarker = mMap.addMarker(markOpts);
 //        Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
 //        Response<SearchResponse> response = null;
 //        try {
@@ -245,12 +253,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void mark(){
-        MarkerOptions markOpts = new MarkerOptions();
-        markOpts.position(rest.get(0).getLatLng())
-                .title(rest.get(0).getName())
-                //.snippet(Double.toString(rating))
-                //.snippet(rest_distance)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-        Marker yelpMarker = mMap.addMarker(markOpts);
+
     }
 }

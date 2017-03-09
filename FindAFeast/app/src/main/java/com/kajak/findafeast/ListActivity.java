@@ -1,17 +1,25 @@
 package com.kajak.findafeast;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.location.Location;
 import android.widget.Toast;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.v4.os.ParcelableCompat;
 
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,9 +46,11 @@ import static java.lang.Thread.sleep;
 /**
  * Created by Kevin on 2/19/17.
  */
-public class ListActivity extends AppCompatActivity{
+public class ListActivity extends AppCompatActivity {
     ListView list;
-    LatLng current_position;
+//    LatLng current_position;
+    double mLatitude;
+    double mLongitude;
     ArrayList<String> name = new ArrayList<String>();
     ArrayList<String> img = new ArrayList<String>();
     ArrayList<Double> rating = new ArrayList<Double>();
@@ -49,6 +59,10 @@ public class ListActivity extends AppCompatActivity{
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
+    final float LOCATION_REFRESH = 10;
+    final long LOCATION_DISTANCE = 100;
+
+    LocationManager locationManager;
 
     private final double METER_MILE_CONVERSION = 1609.344;
 
@@ -57,6 +71,7 @@ public class ListActivity extends AppCompatActivity{
     YelpAPI mYelpAPI;
     Map<String, String> mParams;
     MapsActivity mAct;
+    Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +93,28 @@ public class ListActivity extends AppCompatActivity{
         //search terms
         mParams.put("term", "food");
 
-        Intent getIntent = getIntent();
-        current_position = new LatLng(
-                getIntent.getDoubleExtra("latitude", 0),
-                getIntent.getDoubleExtra("longitude", 0));
+//        Intent getIntent = getIntent();
+//        current_position = new LatLng(
+//                getIntent.getDoubleExtra("latitude", 0),
+//                getIntent.getDoubleExtra("longitude", 0));
+        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        mLongitude = currentLocation.getLongitude();
+        mLatitude = currentLocation.getLatitude();
 //        new FetchPictures().execute();
 //
 
@@ -109,13 +141,24 @@ public class ListActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addToSelection(position);
-                //startMap.putExtra("selected", rest);
+                //startMap.putExtra("selected", selectedRest);
                 //startActivity(startMap);
             }
         });
 
+        btn = (Button) findViewById(R.id.mapBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                startMap.putExtra("selected", selectedRest);
+//                startActivity(startMap);
+                startMap.putParcelableArrayListExtra("selected", selectedRest);
+                startActivity(startMap);
+            }
+        });
+
+
     }
-//
 //    @Override
 //    public void onLocationChanged(Location location) {
 //        LatLng latLng = new LatLng(location.getLatitude(), location.getLatitude());
@@ -135,8 +178,8 @@ public class ListActivity extends AppCompatActivity{
 
             //find user coordinates
             CoordinateOptions coordinate = CoordinateOptions.builder()
-                    .latitude(current_position.latitude)
-                    .longitude(current_position.longitude).build();
+                    .latitude(mLatitude)
+                    .longitude(mLongitude).build();
             Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
             Response<SearchResponse> response = null;
             try {

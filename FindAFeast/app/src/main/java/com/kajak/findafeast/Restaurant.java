@@ -1,6 +1,8 @@
 package com.kajak.findafeast;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Created by Kevin on 2/27/17.
  */
-public class Restaurant {
+public class Restaurant implements Parcelable {
 
     private String name;
     private LatLng latLng;
@@ -71,4 +73,48 @@ public class Restaurant {
         return "name: " + name + "\t(lat, lng): " + latLng.toString() + "\taddress: " + address.toString()
                 + "\trating: " + rating;
     }
+
+
+    protected Restaurant(Parcel in) {
+        name = in.readString();
+        latLng = (LatLng) in.readValue(LatLng.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            address = new ArrayList<String>();
+            in.readList(address, String.class.getClassLoader());
+        } else {
+            address = null;
+        }
+        rating = in.readDouble();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeValue(latLng);
+        if (address == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(address);
+        }
+        dest.writeDouble(rating);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Restaurant> CREATOR = new Parcelable.Creator<Restaurant>() {
+        @Override
+        public Restaurant createFromParcel(Parcel in) {
+            return new Restaurant(in);
+        }
+
+        @Override
+        public Restaurant[] newArray(int size) {
+            return new Restaurant[size];
+        }
+    };
 }
