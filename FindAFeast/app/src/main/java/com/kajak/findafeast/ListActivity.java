@@ -1,6 +1,5 @@
 package com.kajak.findafeast;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -22,7 +21,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.location.Location;
 import android.widget.Toast;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -33,7 +31,6 @@ import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
-
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -50,7 +47,7 @@ import retrofit2.Response;
  */
 public class ListActivity extends AppCompatActivity {
     ListView list;
-//    LatLng current_position;
+    LatLng current_position;
     double mLatitude;
     double mLongitude;
     ArrayList<String> name = new ArrayList<String>();
@@ -73,8 +70,8 @@ public class ListActivity extends AppCompatActivity {
     Map<String, String> mParams;
     MapsActivity mAct;
     Button btn;
-    private Fragment googleMapsAPIFragment;
     private FragmentTransaction fragTransaction;
+    private GoogleMapsAPIUtility googleMapsAPIFragment;
     private final String googleMapsAPIFragment_tag = "google_maps_utility";
 
     @Override
@@ -82,10 +79,10 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
 
-        googleMapsAPIFragment =  new GoogleMapsAPIUtility();
-        fragTransaction = getFragmentManager().beginTransaction();
-        fragTransaction.add(googleMapsAPIFragment, googleMapsAPIFragment_tag).commit();
-        getFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
+//        googleMapsAPIFragment = new GoogleMapsAPIUtility();
+//        getFragmentManager().beginTransaction().add(googleMapsAPIFragment, googleMapsAPIFragment_tag).commit();
+        getSupportFragmentManager().beginTransaction().add(new GoogleMapsAPIUtility(), googleMapsAPIFragment_tag).commit();
+        getSupportFragmentManager().executePendingTransactions();
 
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
@@ -102,10 +99,17 @@ public class ListActivity extends AppCompatActivity {
         //search terms
         mParams.put("term", "food");
 
-//        Intent getIntent = getIntent();
-//        current_position = new LatLng(
-//                getIntent.getDoubleExtra("latitude", 0),
-//                getIntent.getDoubleExtra("longitude", 0));
+        // get location
+//        googleMapsAPIFragment = (GoogleMapsAPIUtility) getFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
+        googleMapsAPIFragment = (GoogleMapsAPIUtility) getSupportFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
+
+        if (googleMapsAPIFragment != null)
+            current_position = googleMapsAPIFragment.getMyLocation();
+        else {
+            current_position = new LatLng(0, 0);
+            Toast.makeText(this, "Google API fragment null", Toast.LENGTH_SHORT).show();
+        }
+
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -121,18 +125,11 @@ public class ListActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        mLongitude = currentLocation.getLongitude();
-        mLatitude = currentLocation.getLatitude();
+//        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//        mLongitude = currentLocation.getLongitude();
+//        mLatitude = currentLocation.getLatitude();
 //        new FetchPictures().execute();
 //
-
-//        try {
-//            sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
 
         try {
             String str_result= new FetchPictures().execute().get();
@@ -192,6 +189,7 @@ public class ListActivity extends AppCompatActivity {
             } catch (IOException e){
                 e.printStackTrace();
             }
+
             if (response != null) {
                 for (int i = 0; i < 10; i++) {
                     img.add(response.body().businesses().get(i).imageUrl());

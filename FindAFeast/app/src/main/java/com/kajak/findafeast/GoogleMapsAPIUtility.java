@@ -1,6 +1,6 @@
 package com.kajak.findafeast;
 
-import android.app.*;
+//import android.app.*;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import android.support.v4.app.*;
 
 /**
  * Created by James on 3/6/2017.
@@ -42,6 +43,7 @@ public class GoogleMapsAPIUtility extends Fragment implements GoogleApiClient.Co
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        buildGoogleApiClient();
     }
 
     // Commit changes here

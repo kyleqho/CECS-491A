@@ -49,11 +49,18 @@ public class MainActivity extends AppCompatActivity{
         rest.clear();
     }
 
-    View.OnClickListener handler = new View.OnClickListener(){
-        public void onClick(View v){
+    public void onClick(View v) {
+            Toast.makeText(getApplicationContext(), "button press", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, ListActivity.class);
             startActivity(intent);
-        }
-    };
+    }
+
+//    View.OnClickListener handler = new View.OnClickListener(){
+//        public void onClick(View v){
+//            Toast.makeText(getApplicationContext(), "button press", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(MainActivity.this, ListActivity.class);
+//            startActivity(intent);
+//        }
+//    };
 
 }
