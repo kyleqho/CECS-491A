@@ -47,13 +47,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 , GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
 
     private GoogleMap mMap;
-    YelpAPIFactory mApiFactory;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Marker mCurrentLocation;
-    YelpAPI mYelpAPI;
-    Map<String, String> mParams;
+
     Button findBtn;
     LatLng latLng;
     ArrayList<Restaurant> rest;
@@ -93,23 +91,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
-
-        mApiFactory = new YelpAPIFactory(
-                getString(R.string.consumerKey),
-                getString(R.string.consumerSecret),
-                getString(R.string.token),
-                getString(R.string.tokenSecret));
-
-        //create yelp object
-        mYelpAPI = mApiFactory.createAPI();
-
-        //map of params
-        mParams = new HashMap<>();
-
-        //search terms
-        mParams.put("term", "food");
-
-
     }
 
     public boolean checkLocationPermission(){
@@ -182,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        Location mLastLocation = location;
+//        Location mLastLocation = location;
 
         if (mCurrentLocation != null) {
             mCurrentLocation.remove();
@@ -198,24 +179,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .title(rest.get(0).getName())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         Marker yelpMarker = mMap.addMarker(markOpts);
-//        Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
-//        Response<SearchResponse> response = null;
-//        try {
-//            response = call.execute();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
-//        if (response != null) {
-//            for(int i=0;i<10;i++) {
-//                double rest_lat = response.body().businesses().get(i).location().coordinate().latitude();
-//                double rest_long = response.body().businesses().get(i).location().coordinate().longitude();
-//                String rest_distance = response.body().businesses().get(i).location().address().toString();
-//                double rating = response.body().businesses().get(i).rating();
-//                String rest_name = response.body().businesses().get(i).name();
-//                LatLng yelplatLng = new LatLng(rest_lat, rest_long);
-
-//            }
-//        }
 
 
         //move map camera
