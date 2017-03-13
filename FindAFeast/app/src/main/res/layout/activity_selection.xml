@@ -42,21 +42,29 @@
         android:id="@+id/fav"
         android:layout_gravity="right"
         android:textOff="favorites"
-        android:textOn="favorites"/>
+        android:textOn="favorites"
+        android:layout_alignBaseline="@+id/directions"
+        android:layout_alignBottom="@+id/directions"
+        android:layout_alignEnd="@+id/comments" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Directions"
         android:id="@+id/directions"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_alignTop="@+id/newSp"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Spin"
         android:id="@+id/newSp"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/directions"
+        android:layout_marginBottom="71dp" />
 
 
 </RelativeLayout>
