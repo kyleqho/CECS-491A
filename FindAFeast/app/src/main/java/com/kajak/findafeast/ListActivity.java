@@ -3,9 +3,6 @@ package com.kajak.findafeast;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
@@ -70,19 +67,11 @@ public class ListActivity extends AppCompatActivity {
     Map<String, String> mParams;
     MapsActivity mAct;
     Button btn;
-    private FragmentTransaction fragTransaction;
-    private GoogleMapsAPIUtility googleMapsAPIFragment;
-    private final String googleMapsAPIFragment_tag = "google_maps_utility";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
-
-//        googleMapsAPIFragment = new GoogleMapsAPIUtility();
-//        getFragmentManager().beginTransaction().add(googleMapsAPIFragment, googleMapsAPIFragment_tag).commit();
-        getSupportFragmentManager().beginTransaction().add(new GoogleMapsAPIUtility(), googleMapsAPIFragment_tag).commit();
-        getSupportFragmentManager().executePendingTransactions();
 
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
@@ -98,17 +87,6 @@ public class ListActivity extends AppCompatActivity {
 
         //search terms
         mParams.put("term", "food");
-
-        // get location
-//        googleMapsAPIFragment = (GoogleMapsAPIUtility) getFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
-        googleMapsAPIFragment = (GoogleMapsAPIUtility) getSupportFragmentManager().findFragmentByTag(googleMapsAPIFragment_tag);
-
-        if (googleMapsAPIFragment != null)
-            current_position = googleMapsAPIFragment.getMyLocation();
-        else {
-            current_position = new LatLng(0, 0);
-            Toast.makeText(this, "Google API fragment null", Toast.LENGTH_SHORT).show();
-        }
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
