@@ -31,15 +31,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <com.androidqa.WheelView
+        <com.example.wheeltest.WheelView
             android:id="@+id/p1"
             android:layout_height="150dip"
             android:layout_width="wrap_content" />
-        <com.androidqa.WheelView
+        <com.example.wheeltest.WheelView
             android:id="@+id/p2"
             android:layout_height="150dip"
             android:layout_width="wrap_content" />
-        <com.androidqa.WheelView
+        <com.example.wheeltest.WheelView
             android:id="@+id/p3"
             android:layout_height="150dip"
             android:layout_width="wrap_content" />
