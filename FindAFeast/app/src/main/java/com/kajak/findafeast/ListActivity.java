@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,9 +104,9 @@ public class ListActivity extends AppCompatActivity {
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-//        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//        mLongitude = currentLocation.getLongitude();
-//        mLatitude = currentLocation.getLatitude();
+        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        mLongitude = currentLocation.getLongitude();
+        mLatitude = currentLocation.getLatitude();
 //        new FetchPictures().execute();
 //
 
@@ -137,8 +138,9 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                startMap.putExtra("selected", selectedRest);
 //                startActivity(startMap);
-                startMap.putParcelableArrayListExtra("selected", selectedRest);
-                startActivity(startMap);
+//                startMap.putParcelableArrayListExtra("selected", selectedRest);
+//                startActivity(startMap);
+                Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
             }
         });
 

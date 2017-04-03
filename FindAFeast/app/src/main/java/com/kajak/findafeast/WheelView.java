@@ -159,9 +159,9 @@ public class WheelView extends View {
 	 * 
 	 * @return the count of visible items
 	 */
-	public int getVisibleItems() {
-		return visibleItems;
-	}
+//	public int getVisibleItems() {
+//		return visibleItems;
+//	}
 
 	/**
 	 * Sets the desired count of visible items.
@@ -170,9 +170,9 @@ public class WheelView extends View {
 	 * 
 	 * @param count the desired count for visible items
 	 */
-	public void setVisibleItems(int count) {
-		visibleItems = count;
-	}
+//	public void setVisibleItems(int count) {
+//		visibleItems = count;
+//	}
 
 	/**
 	 * Gets view adapter

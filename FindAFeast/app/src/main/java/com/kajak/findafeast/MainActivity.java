@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), "button press", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MainActivity.this, ListActivity.class);
             startActivity(intent);
     }
