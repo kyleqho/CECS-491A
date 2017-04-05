@@ -13,7 +13,6 @@
         android:id="@+id/mapBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onClick_Directions"
         android:text="Go to map"/>
 
     <ListView

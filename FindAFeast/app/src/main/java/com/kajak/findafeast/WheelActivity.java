@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class WheelActivity extends AppCompatActivity {
     // TODO: Externalize string-array
@@ -26,11 +27,7 @@ public class WheelActivity extends AppCompatActivity {
         setContentView(R.layout.activity_wheel);
 
         Intent intent = this.getIntent();
-        Bundle data = intent.getBundleExtra("list");
-
-        if (data.containsKey("list")) {
-            restaurants = (ArrayList<Restaurant>) data.get("list");
-        }
+        restaurants = intent.getParcelableArrayListExtra("selected");
 
         initWheel(R.id.wheel_view);
 
@@ -80,7 +77,7 @@ public class WheelActivity extends AppCompatActivity {
 
     private void initWheel(int id) {
         WheelView wheel = (WheelView) findViewById(id);
-        wheel.setViewAdapter(new ArrayWheelAdapter<String>(getApplicationContext(), wheelMenu1));
+        wheel.setViewAdapter(new ArrayWheelAdapter<Restaurant>(getApplicationContext(), (Restaurant[])restaurants.toArray()));
 //        wheel.setVisibleItems(2);
 //        wheel.setCurrentItem(0);
         wheel.addChangingListener(changedListener);

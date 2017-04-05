@@ -141,6 +141,8 @@ public class ListActivity extends AppCompatActivity {
 //                startMap.putParcelableArrayListExtra("selected", selectedRest);
 //                startActivity(startMap);
                 Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
+                startWheel.putParcelableArrayListExtra("selected", selectedRest);
+                startActivity(startWheel);
             }
         });
 
