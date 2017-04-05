@@ -1,5 +1,8 @@
 package com.kajak.findafeast;
 
+import android.*;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 
@@ -30,12 +33,14 @@ import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
+import java.io.Console;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.jar.*;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -91,22 +96,14 @@ public class ListActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        try {
+            Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            mLongitude = currentLocation.getLongitude();
+            mLatitude = currentLocation.getLatitude();
+            System.out.println(new LatLng(mLongitude, mLatitude));
+        } catch (SecurityException se) {
+            se.getMessage();
         }
-        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        mLongitude = currentLocation.getLongitude();
-        mLatitude = currentLocation.getLatitude();
 //        new FetchPictures().execute();
 //
 
@@ -209,4 +206,5 @@ public class ListActivity extends AppCompatActivity {
 
         Log.v("test", selectedRest.toString());
     }
+
 }

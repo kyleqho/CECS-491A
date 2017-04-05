@@ -1,8 +1,11 @@
 package com.kajak.findafeast;
 
+import android.*;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,11 +34,29 @@ public class MainActivity extends AppCompatActivity{
     Button mBtnStart;
     ImageView mIVLogo;
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
+    final int LOCATION_PERMISSION_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST);
+        }
+
 
         mBtnStart = (Button) findViewById(R.id.btnStart);
         mIVLogo = (ImageView) findViewById(R.id.ivLogo);
@@ -54,12 +75,12 @@ public class MainActivity extends AppCompatActivity{
             startActivity(intent);
     }
 
-//    View.OnClickListener handler = new View.OnClickListener(){
-//        public void onClick(View v){
-//            Toast.makeText(getApplicationContext(), "button press", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(MainActivity.this, ListActivity.class);
-//            startActivity(intent);
-//        }
-//    };
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                System.exit(0);
+            }
+        }
+    }
 }
