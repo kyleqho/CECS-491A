@@ -8,13 +8,13 @@
     android:background="#46484A">
  <TableLayout android:layout_width="fill_parent"
     android:layout_margin="0dip"
-    
+
     android:paddingLeft="30dp"
     android:layout_gravity="center"
     android:background="@layout/myshape1"
     android:layout_height="wrap_content">
-    
-    
+
+
     <TableRow android:padding="10dip" >
     <TextView
         android:layout_width="wrap_content"
@@ -86,15 +86,15 @@
         android:textStyle="bold"
         android:layout_height="110dip"
         />
-   
+
     <TableLayout android:layout_width="fill_parent"
     android:layout_margin="0dip"
     android:paddingLeft="30dp"
     android:layout_gravity="bottom"
     android:background="@layout/myshape1"
     android:layout_height="wrap_content">
-    
-    
+
+
     <TableRow android:padding="10dip" >
     <TextView
         android:id="@+id/result"

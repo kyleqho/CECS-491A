@@ -59,7 +59,7 @@ public class WheelView extends View {
     private int scrollingOffset;
 
 	// Cyclic
-	boolean isCyclic = false;
+	boolean isCyclic = true;
 	
 	// Items layout
 	private LinearLayout itemsLayout;

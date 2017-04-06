@@ -13,14 +13,14 @@ public class MainActivity extends Activity
 {
     // TODO: Externalize string-array
     String wheelMenu1[] = new String[]{"name 1", "name 2", "name 3", "name 4", "name 5", "name 6","name 7","name 8","name 9"};
-    String wheelMenu2[] = new String[]{"age 1", "age 2", "age 3"};
-    String wheelMenu3[] = new String[]{"10", "20","30","40","50","60"};
+    //String wheelMenu2[] = new String[]{"age 1", "age 2", "age 3"};
+    //String wheelMenu3[] = new String[]{"10", "20","30","40","50","60"};
 
     // Wheel scrolled flag
     private boolean wheelScrolled = false;
 
     private TextView text;
-    private EditText text1;
+    private TextView text1;
     private EditText text2;
     private EditText text3;
 
@@ -28,16 +28,16 @@ public class MainActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
 
         initWheel1(R.id.p1);
-        initWheel2(R.id.p2);
-        initWheel3(R.id.p3);
+        //initWheel2(R.id.p2);
+        //initWheel3(R.id.p3);
 
-        text1 = (EditText) this.findViewById(R.id.r1);
-        text2 = (EditText) this.findViewById(R.id.r2);
-        text3 = (EditText) this.findViewById(R.id.r3);
-        text = (TextView) this.findViewById(R.id.result);
+        text1 = (TextView) this.findViewById(R.id.r1);
+        //text2 = (EditText) this.findViewById(R.id.r2);
+        //text3 = (EditText) this.findViewById(R.id.r3);
+        //text = (TextView) this.findViewById(R.id.result);
     }
 
     // Wheel scrolled listener
@@ -74,10 +74,10 @@ public class MainActivity extends Activity
     private void updateStatus()
     {
         text1.setText(wheelMenu1[getWheel(R.id.p1).getCurrentItem()]);
-        text2.setText(wheelMenu2[getWheel(R.id.p2).getCurrentItem()]);
-        text3.setText(wheelMenu3[getWheel(R.id.p3).getCurrentItem()]);
+        //text2.setText(wheelMenu2[getWheel(R.id.p2).getCurrentItem()]);
+        //text3.setText(wheelMenu3[getWheel(R.id.p3).getCurrentItem()]);
 
-        text.setText(wheelMenu1[getWheel(R.id.p1).getCurrentItem()] + " - " + wheelMenu2[getWheel(R.id.p2).getCurrentItem()] + " - " + wheelMenu3[getWheel(R.id.p3).getCurrentItem()]);
+        //text.setText(wheelMenu1[getWheel(R.id.p1).getCurrentItem()] + " - " + wheelMenu2[getWheel(R.id.p2).getCurrentItem()] + " - " + wheelMenu3[getWheel(R.id.p3).getCurrentItem()]);
     }
 
     /**
@@ -97,26 +97,26 @@ public class MainActivity extends Activity
         wheel.addScrollingListener(scrolledListener);
     }
 
-    private void initWheel2(int id)
-    {
-        WheelView wheel = (WheelView) findViewById(id);
-        wheel.setViewAdapter(new ArrayWheelAdapter<String>(getApplicationContext(),wheelMenu2));
-        wheel.setVisibleItems(2);
-        wheel.setCurrentItem(0);
-        wheel.addChangingListener(changedListener);
-        wheel.addScrollingListener(scrolledListener);
-    }
+//    private void initWheel2(int id)
+//    {
+//        WheelView wheel = (WheelView) findViewById(id);
+//        wheel.setViewAdapter(new ArrayWheelAdapter<String>(getApplicationContext(),wheelMenu2));
+//        wheel.setVisibleItems(2);
+//        wheel.setCurrentItem(0);
+//        wheel.addChangingListener(changedListener);
+//        wheel.addScrollingListener(scrolledListener);
+//    }
 
-    private void initWheel3(int id)
-    {
-        WheelView wheel = (WheelView) findViewById(id);
-
-        wheel.setViewAdapter(new ArrayWheelAdapter<String>(getApplicationContext(),wheelMenu3));
-        wheel.setVisibleItems(2);
-        wheel.setCurrentItem(0);
-        wheel.addChangingListener(changedListener);
-        wheel.addScrollingListener(scrolledListener);
-    }
+//    private void initWheel3(int id)
+//    {
+//        WheelView wheel = (WheelView) findViewById(id);
+//
+//        wheel.setViewAdapter(new ArrayWheelAdapter<String>(getApplicationContext(),wheelMenu3));
+//        wheel.setVisibleItems(2);
+//        wheel.setCurrentItem(0);
+//        wheel.addChangingListener(changedListener);
+//        wheel.addScrollingListener(scrolledListener);
+//    }
 
     /**
      * Returns wheel by Id
