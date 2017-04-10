@@ -340,7 +340,7 @@ public class WheelView extends View {
 			            itemsToScroll = itemsToScroll < 0 ? scroll : -scroll;
 			        }
 			    }
-				scroll(itemsToScroll, 0);
+				scroll(itemsToScroll, 5000);
 			} else {
 				scrollingOffset = 0;
 			

@@ -2,12 +2,18 @@ package com.example.wheeltest;
 
 
         import android.app.Activity;
+        import android.os.Handler;
+        import android.os.SystemClock;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
+        import android.view.MotionEvent;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.Button;
         import android.widget.EditText;
         import android.widget.TextView;
+
+        import java.util.Random;
 
 public class MainActivity extends Activity
 {
@@ -38,7 +44,35 @@ public class MainActivity extends Activity
         //text2 = (EditText) this.findViewById(R.id.r2);
         //text3 = (EditText) this.findViewById(R.id.r3);
         //text = (TextView) this.findViewById(R.id.result);
+
+        final int size = wheelMenu1.length;
+
+        Button spin = (Button) this.findViewById(R.id.spin);
+        spin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Random r = new Random();
+                final int x =  r.nextInt(size);
+
+
+
+                final WheelView wheel = (WheelView) findViewById(R.id.p1);
+                System.out.println("_____________________X=" + x + "____________________________ ");
+                int dist =  (size * 30) + x;
+                wheel.scroll(dist,5000);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        //wheel.setCurrentItem(x,true);
+                    }
+                }, 5000);
+
+
+        }
+        });
     }
+
 
     // Wheel scrolled listener
     OnWheelScrollListener scrolledListener = new OnWheelScrollListener() {
@@ -46,12 +80,14 @@ public class MainActivity extends Activity
         public void onScrollingStarted(WheelView wheel) {
             wheelScrolled = true;
 
+
         }
 
         @Override
         public void onScrollingFinished(WheelView wheel) {
             wheelScrolled = false;
             updateStatus();
+
 
         }
     };

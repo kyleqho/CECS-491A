@@ -32,7 +32,7 @@ class AnimationView extends View {
     myPaint.setAntiAlias(true);
   }
 
-  public boolean onTouchEvent(MotionEvent event) {
+        public boolean onTouchEvent(MotionEvent event) {
     int action = event.getAction();
     switch (action) {
     case MotionEvent.ACTION_DOWN:
