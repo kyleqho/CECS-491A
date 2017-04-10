@@ -18,9 +18,6 @@ public class WheelActivity extends AppCompatActivity {
     // Wheel scrolled flag
     private boolean wheelScrolled = false;
 
-    private TextView text;
-    private EditText text1;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +27,6 @@ public class WheelActivity extends AppCompatActivity {
         restaurants = intent.getParcelableArrayListExtra("selected");
 
         initWheel(R.id.wheel_view);
-
-        text1 = (EditText) this.findViewById(R.id.r1);
-        text = (TextView) this.findViewById(R.id.result);
     }
 
     // Wheel scrolled listener
@@ -45,7 +39,7 @@ public class WheelActivity extends AppCompatActivity {
         @Override
         public void onScrollingFinished(WheelView wheel) {
             wheelScrolled = false;
-            updateStatus();
+//            updateStatus();
         }
     };
 
@@ -55,7 +49,7 @@ public class WheelActivity extends AppCompatActivity {
         public void onChanged(WheelView wheel, int oldValue, int newValue)
         {
             if (!wheelScrolled) {
-                updateStatus();
+//                updateStatus();
             }
         }
     };
@@ -63,10 +57,10 @@ public class WheelActivity extends AppCompatActivity {
     /**
      * Updates entered PIN status
      */
-    private void updateStatus() {
-        text1.setText(wheelMenu1[getWheel(R.id.wheel_view).getCurrentItem()]);
-        text.setText(wheelMenu1[getWheel(R.id.wheel_view).getCurrentItem()]);
-    }
+//    private void updateStatus() {
+//        text1.setText(wheelMenu1[getWheel(R.id.wheel_view).getCurrentItem()]);
+//        text.setText(wheelMenu1[getWheel(R.id.wheel_view).getCurrentItem()]);
+//    }
 
     /**
      * Initializes activity_wheel
@@ -77,7 +71,8 @@ public class WheelActivity extends AppCompatActivity {
 
     private void initWheel(int id) {
         WheelView wheel = (WheelView) findViewById(id);
-        wheel.setViewAdapter(new ArrayWheelAdapter<Restaurant>(getApplicationContext(), (Restaurant[])restaurants.toArray()));
+        Restaurant[] rest_list = restaurants.toArray(new Restaurant[restaurants.size()]);
+        wheel.setViewAdapter(new ArrayWheelAdapter<Restaurant>(getApplicationContext(), rest_list));
 //        wheel.setVisibleItems(2);
 //        wheel.setCurrentItem(0);
         wheel.addChangingListener(changedListener);

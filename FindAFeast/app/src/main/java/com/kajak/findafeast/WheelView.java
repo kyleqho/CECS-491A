@@ -58,7 +58,7 @@ public class WheelView extends View {
     private int scrollingOffset;
 
 	// Cyclic
-	boolean isCyclic = false;
+	boolean isCyclic = true;
 	
 	// Items layout
 	private LinearLayout itemsLayout;
@@ -106,6 +106,7 @@ public class WheelView extends View {
 	 * @param context the context
 	 */
 	private void initData(Context context) {
+        centerDrawable = getContext().getResources().getDrawable(R.layout.wheel_val);
 	    scroller = new WheelScroller(getContext(), scrollingListener);
 	}
 	
@@ -401,22 +402,22 @@ public class WheelView extends View {
 	/**
 	 * Initializes resources
 	 */
-//	private void initResourcesIfNecessary() {
-//		if (centerDrawable == null) {
-//			centerDrawable = getContext().getResources().getDrawable(R.layout.wheel_val);
-//
-//		}
-//
-//		if (topShadow == null) {
-//			topShadow = new GradientDrawable(Orientation.TOP_BOTTOM, SHADOWS_COLORS);
-//		}
-//
-//		if (bottomShadow == null) {
-//			bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP, SHADOWS_COLORS);
-//		}
-//
-//		setBackgroundResource(R.layout.wheel_bg);
-//	}
+	private void initResourcesIfNecessary() {
+		if (centerDrawable == null) {
+			centerDrawable = getContext().getResources().getDrawable(R.layout.wheel_val);
+
+		}
+
+		if (topShadow == null) {
+			topShadow = new GradientDrawable(Orientation.TOP_BOTTOM, SHADOWS_COLORS);
+		}
+
+		if (bottomShadow == null) {
+			bottomShadow = new GradientDrawable(Orientation.BOTTOM_TOP, SHADOWS_COLORS);
+		}
+
+		setBackgroundResource(R.layout.wheel_bg);
+	}
 	
 	/**
 	 * Calculates desired height for layout
@@ -459,7 +460,7 @@ public class WheelView extends View {
 	 * @return the calculated control width
 	 */
 	private int calculateLayoutWidth(int widthSize, int mode) {
-//		initResourcesIfNecessary();
+		initResourcesIfNecessary();
 
 		// TODO: make it static
 		itemsLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

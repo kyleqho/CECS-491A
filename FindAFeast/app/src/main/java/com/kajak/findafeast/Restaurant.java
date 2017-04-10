@@ -70,8 +70,7 @@ public class Restaurant implements Parcelable {
 
     @Override
     public String toString() {
-        return "name: " + name + "\t(lat, lng): " + latLng.toString() + "\taddress: " + address.toString()
-                + "\trating: " + rating;
+        return name;
     }
 
 
