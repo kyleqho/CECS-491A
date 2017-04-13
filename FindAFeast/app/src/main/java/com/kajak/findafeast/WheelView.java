@@ -116,10 +116,10 @@ public class WheelView extends View {
             isScrollingPerformed = true;
             notifyScrollingListenersAboutStart();
         }
-        
+
         public void onScroll(int distance) {
             doScroll(distance);
-            
+
             int height = getHeight();
             if (scrollingOffset > height) {
                 scrollingOffset = height;
@@ -129,13 +129,13 @@ public class WheelView extends View {
                 scroller.stopScrolling();
             }
         }
-        
+
         public void onFinished() {
             if (isScrollingPerformed) {
                 notifyScrollingListenersAboutEnd();
                 isScrollingPerformed = false;
             }
-            
+
             scrollingOffset = 0;
             invalidate();
         }
@@ -581,37 +581,37 @@ public class WheelView extends View {
 		centerDrawable.draw(canvas);
 	}
 
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (!isEnabled() || getViewAdapter() == null) {
-			return true;
-		}
-		
-		switch (event.getAction()) {
-		    case MotionEvent.ACTION_MOVE:
-		        if (getParent() != null) {
-		            getParent().requestDisallowInterceptTouchEvent(true);
-		        }
-		        break;
-		        
-		    case MotionEvent.ACTION_UP:
-		        if (!isScrollingPerformed) {
-		            int distance = (int) event.getY() - getHeight() / 2;
-		            if (distance > 0) {
-		                distance += getItemHeight() / 2;
-		            } else {
-                        distance -= getItemHeight() / 2;
-		            }
-		            int items = distance / getItemHeight();
-		            if (items != 0 && isValidItemIndex(currentItem + items)) {
-	                    notifyClickListenersAboutClick(currentItem + items);
-		            }
-		        }
-		        break;
-		}
-
-		return scroller.onTouchEvent(event);
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		if (!isEnabled() || getViewAdapter() == null) {
+//			return true;
+//		}
+//
+//		switch (event.getAction()) {
+//		    case MotionEvent.ACTION_MOVE:
+//		        if (getParent() != null) {
+//		            getParent().requestDisallowInterceptTouchEvent(true);
+//		        }
+//		        break;
+//
+//		    case MotionEvent.ACTION_UP:
+//		        if (!isScrollingPerformed) {
+//		            int distance = (int) event.getY() - getHeight() / 2;
+//		            if (distance > 0) {
+//		                distance += getItemHeight() / 2;
+//		            } else {
+//                        distance -= getItemHeight() / 2;
+//		            }
+//		            int items = distance / getItemHeight();
+//		            if (items != 0 && isValidItemIndex(currentItem + items)) {
+//	                    notifyClickListenersAboutClick(currentItem + items);
+//		            }
+//		        }
+//		        break;
+//		}
+//
+//		return scroller.onTouchEvent(event);
+//	}
 	
 	/**
 	 * Scrolls the wheel

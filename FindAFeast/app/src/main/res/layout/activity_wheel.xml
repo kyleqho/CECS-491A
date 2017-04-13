@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_marginTop="24dp"
+<RelativeLayout android:layout_marginTop="24dp"
     android:layout_gravity="center_horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <com.kajak.findafeast.WheelView
-        android:id="@+id/wheel_view"
-        android:layout_height="150dip"
-        android:layout_width="wrap_content" />
-</LinearLayout>
+        android:id="@+id/p1"
+        android:layout_height="300dip"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="38dp" />
+    <TextView
+        android:id="@+id/r1"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="#000"
+        android:layout_below="@+id/p1"
+        android:layout_alignStart="@+id/spin">
+    </TextView>
+
+    <Button
+        android:text="Spin!!!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spin"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp" />
+</RelativeLayout>
 
 
 

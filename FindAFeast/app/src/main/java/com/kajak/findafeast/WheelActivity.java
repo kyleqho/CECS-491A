@@ -2,6 +2,9 @@ package com.kajak.findafeast;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -9,14 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class WheelActivity extends AppCompatActivity {
     // TODO: Externalize string-array
-    String wheelMenu1[] = new String[]{"name 1", "name 2", "name 3", "name 4", "name 5", "name 6","name 7","name 8","name 9"};
+    //String wheelMenu1[] = new String[]{"name 1", "name 2", "name 3", "name 4", "name 5", "name 6","name 7","name 8","name 9"};
     ArrayList<Restaurant> restaurants;
 
     // Wheel scrolled flag
     private boolean wheelScrolled = false;
+    private TextView text1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,33 +31,60 @@ public class WheelActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         restaurants = intent.getParcelableArrayListExtra("selected");
 
-        initWheel(R.id.wheel_view);
+        initWheel(R.id.p1);
+
+        final int size = restaurants.size();
+
+        Button spin = (Button) this.findViewById(R.id.spin);
+        spin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Random r = new Random();
+                final int x =  r.nextInt(size);
+
+
+
+                final WheelView wheel = (WheelView) findViewById(R.id.p1);
+                System.out.println("_____________________X=" + x + "____________________________ ");
+                int dist =  (size * 30) + x;
+                wheel.scroll(dist,6000);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Do something after 5s = 5000ms
+                        //wheel.setCurrentItem(x,true);
+                    }
+                }, 5000);
+
+
+            }
+        });
     }
 
     // Wheel scrolled listener
-    OnWheelScrollListener scrolledListener = new OnWheelScrollListener() {
-        @Override
-        public void onScrollingStarted(WheelView wheel) {
-            wheelScrolled = true;
-        }
-
-        @Override
-        public void onScrollingFinished(WheelView wheel) {
-            wheelScrolled = false;
-//            updateStatus();
-        }
-    };
+//    OnWheelScrollListener scrolledListener = new OnWheelScrollListener() {
+//        @Override
+//        public void onScrollingStarted(WheelView wheel) {
+//            wheelScrolled = true;
+//        }
+//
+//        @Override
+//        public void onScrollingFinished(WheelView wheel) {
+//            wheelScrolled = false;
+////            updateStatus();
+//        }
+//    };
 
     // Wheel changed listener
-    private final OnWheelChangedListener changedListener = new OnWheelChangedListener()
-    {
-        public void onChanged(WheelView wheel, int oldValue, int newValue)
-        {
-            if (!wheelScrolled) {
-//                updateStatus();
-            }
-        }
-    };
+//    private final OnWheelChangedListener changedListener = new OnWheelChangedListener()
+//    {
+//        public void onChanged(WheelView wheel, int oldValue, int newValue)
+//        {
+//            if (!wheelScrolled) {
+////                updateStatus();
+//            }
+//        }
+//    };
 
     /**
      * Updates entered PIN status
@@ -75,8 +107,8 @@ public class WheelActivity extends AppCompatActivity {
         wheel.setViewAdapter(new ArrayWheelAdapter<Restaurant>(getApplicationContext(), rest_list));
 //        wheel.setVisibleItems(2);
 //        wheel.setCurrentItem(0);
-        wheel.addChangingListener(changedListener);
-        wheel.addScrollingListener(scrolledListener);
+        //wheel.addChangingListener(changedListener);
+        //wheel.addScrollingListener(scrolledListener);
     }
 
     /**
