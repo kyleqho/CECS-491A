@@ -43,6 +43,8 @@ import retrofit2.Call;
 import retrofit2.Response;
 import android.os.Parcelable;
 
+import static android.R.attr.rating;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -50,6 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Marker mCurrentLocation;
+    private LatLng currLocation;
 
     Button findBtn;
     LatLng latLng;
@@ -78,8 +81,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //    mark();
 
 
-
-
         findBtn = (Button) findViewById(R.id.btnFind);
         findBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +91,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+
+        currLocation=rest.get(0).getLatLng();
+        MarkerOptions markOpts = new MarkerOptions();
+        markOpts.position(currLocation)
+                        .title(rest.get(0).getName())
+                        .snippet(Double.toString(rest.get(0).getRating()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        Marker yelpMarker = mMap.addMarker(markOpts);
     }
 
     public boolean checkLocationPermission(){
