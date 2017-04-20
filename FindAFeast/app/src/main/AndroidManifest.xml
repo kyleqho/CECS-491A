@@ -11,6 +11,8 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <permission      android:name="com.shop.shoppinglist.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+    <uses-permission android:name="com.shop.shoppinglist.permission.MAPS_RECEIVE"/>
 
     <application
         android:allowBackup="true"
