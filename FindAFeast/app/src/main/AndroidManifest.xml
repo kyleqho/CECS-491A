@@ -45,6 +45,7 @@
         <activity android:name=".ListActivity"
             android:label="ListActivity"></activity>
         <activity android:name=".WheelActivity"/>
+        <activity android:name=".WheelToMapsActivity"/>
     </application>
 
 </manifest>

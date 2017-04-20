@@ -3,15 +3,12 @@ package com.kajak.findafeast;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import android.support.v7.app.AppCompatActivity;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class WheelActivity extends AppCompatActivity {
@@ -41,22 +38,19 @@ public class WheelActivity extends AppCompatActivity {
                 Random r = new Random();
                 final int x =  r.nextInt(size);
 
-
-
                 final WheelView wheel = (WheelView) findViewById(R.id.p1);
-                System.out.println("_____________________X=" + x + "____________________________ ");
+                //System.out.println("_____________________X=" + x + "____________________________ ");
                 int dist =  (size * 30) + x;
                 wheel.scroll(dist,6000);
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // Do something after 5s = 5000ms
-                        //wheel.setCurrentItem(x,true);
+                        Intent wheelTransition = new Intent(WheelActivity.this, WheelToMapsActivity.class);
+                        //wheelTransition.putParcelableArrayListExtra("selected", selectedRest);
+                        startActivity(wheelTransition);
                     }
-                }, 5000);
-
-
+                }, 9000);
             }
         });
     }
