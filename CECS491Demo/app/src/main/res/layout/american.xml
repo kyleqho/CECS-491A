@@ -2,62 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange" >
+    android:background="@color/orange"
+    android:id="@+id/american" >
 
     <Button
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/roundedbutton"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Beverages"
+        android:text="Burger"
         android:textColor="#FFF"
-        android:textSize="12sp"
-        android:id="@+id/button2"
-        android:layout_marginBottom="41dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button3"
-        android:onClick="onClick" />
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/roundedbutton"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Seafood"
-        android:textColor="#FFF"
-        android:id="@+id/button3"
-        android:layout_toStartOf="@+id/button6"
-        android:layout_marginEnd="38dp"
+        android:id="@+id/burger"
         android:onClick="onClick"
-        android:layout_centerVertical="true" />
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/roundedbutton"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="American"
-        android:textColor="#FFF"
-        android:textSize="13sp"
-        android:id="@+id/button4"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="46dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/button2"
-        android:layout_marginTop="47dp"
-        android:layout_alignEnd="@+id/button2"
-        android:onClick="onClick"
-        android:longClickable="true"
-        android:focusable="false" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/roundedbutton"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Bars"
+        android:text="Sandwiches"
         android:textColor="#FFF"
-        android:id="@+id/button5"
+        android:id="@+id/sandwiches"
         android:onClick="onClick"
-        android:layout_alignTop="@+id/button3"
+        android:layout_alignTop="@+id/burger"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -65,44 +36,61 @@
         android:layout_height="70dp"
         android:background="@drawable/roundedbutton"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Asian"
+        android:text="Pizza"
         android:textColor="#FFF"
-        android:id="@+id/button6"
-        android:layout_alignTop="@+id/button4"
-        android:layout_centerHorizontal="true"
-        android:onClick="onClick" />
-
-    <Button
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/roundedbutton"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="Desserts"
-        android:textColor="#FFF"
-        android:id="@+id/button9"
-        android:layout_marginStart="42dp"
+        android:id="@+id/pizza"
         android:onClick="onClick"
-        android:layout_alignTop="@+id/button3"
-        android:layout_toEndOf="@+id/button5" />
+        android:layout_alignTop="@+id/burger"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp" />
 
     <Button
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:background="@drawable/roundedbutton"
         android:gravity="center_vertical|center_horizontal"
-        android:text="Latin"
+        android:text="Diner"
         android:textColor="#FFF"
-        android:id="@+id/button11"
-        android:layout_alignTop="@+id/button6"
-        android:layout_alignStart="@+id/button9"
-        android:onClick="onClick" />
+        android:id="@+id/diner"
+        android:onClick="onClick"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/burger" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:id="@+id/next"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_alignStart="@+id/button9" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/roundedbutton"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Brunch"
+        android:textColor="#FFF"
+        android:id="@+id/brunch"
+        android:onClick="onClick"
+        android:layout_alignTop="@+id/diner"
+        android:layout_alignStart="@+id/pizza" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/roundedbutton"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Soul Food"
+        android:textColor="#FFF"
+        android:id="@+id/soulfood"
+        android:onClick="onClick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/diner"
+        android:layout_marginBottom="48dp" />
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/roundedbutton"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Steak House"
+        android:textColor="#FFF"
+        android:id="@+id/steakhouse"
+        android:onClick="onClick"
+        android:layout_alignTop="@+id/soulfood"
+        android:layout_alignStart="@+id/brunch" />
 
 </RelativeLayout>
