@@ -1,8 +1,5 @@
 package com.kajak.findafeast;
 
-import android.content.Context;
-import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -11,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,9 +16,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.v4.os.ParcelableCompat;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.yelp.clientlib.connection.YelpAPI;
@@ -56,6 +49,8 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
+    ArrayList<Map<String, String>> tags = new ArrayList<>();
+    ArrayList<String> temp = new ArrayList<String>();
     final float LOCATION_REFRESH = 10;
     final long LOCATION_DISTANCE = 100;
 
@@ -88,7 +83,12 @@ public class ListActivity extends AppCompatActivity {
 
         //search terms
         mParams.put("term", "food");
-
+        Intent intent = getIntent();
+        temp = intent.getStringArrayListExtra("tags");
+        for (int i = 0; i < temp.size(); i++){
+            mParams.put("term", temp.get(i));
+            tags.add(mParams);
+        }
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -164,27 +164,32 @@ public class ListActivity extends AppCompatActivity {
             CoordinateOptions coordinate = CoordinateOptions.builder()
                     .latitude(mLatitude)
                     .longitude(mLongitude).build();
-            Call<SearchResponse> call = mYelpAPI.search(coordinate, mParams);
-            Response<SearchResponse> response = null;
-            try {
-                response = call.execute();
-            } catch (IOException e){
-                e.printStackTrace();
-            }
-
-            if (response != null) {
-                for (int i = 0; i < 10; i++) {
-                    img.add(response.body().businesses().get(i).imageUrl());
-                    name.add(response.body().businesses().get(i).name());
-                    rating.add(response.body().businesses().get(i).rating());
-                    distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
-                    coordinates.add(new LatLng(
-                            response.body().businesses().get(i).location().coordinate().latitude(),
-                            response.body().businesses().get(i).location().coordinate().longitude()));
-
-                    addresses.add(response.body().businesses().get(i).location().address());
-                    rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
+            while(!tags.isEmpty()) {
+                Call<SearchResponse> call = mYelpAPI.search(coordinate, tags.get(0));
+                Response<SearchResponse> response = null;
+                try {
+                    response = call.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+                if (response != null) {
+
+                    for (int i = 0; i < 3; i++) {
+                        img.add(response.body().businesses().get(i).imageUrl());
+                        name.add(response.body().businesses().get(i).name());
+                        rating.add(response.body().businesses().get(i).rating());
+                        distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
+                        coordinates.add(new LatLng(
+                                response.body().businesses().get(i).location().coordinate().latitude(),
+                                response.body().businesses().get(i).location().coordinate().longitude()));
+
+                        addresses.add(response.body().businesses().get(i).location().address());
+                        rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
+
+                    }
+                }
+                tags.remove(0);
 
             }
 
