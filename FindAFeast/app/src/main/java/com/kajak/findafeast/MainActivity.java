@@ -1,31 +1,18 @@
 package com.kajak.findafeast;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
-import com.yelp.clientlib.connection.YelpAPI;
-import com.yelp.clientlib.connection.YelpAPIFactory;
-import com.yelp.clientlib.entities.Location;
-import com.yelp.clientlib.entities.SearchResponse;
-import com.yelp.clientlib.entities.options.CoordinateOptions;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * Created by Kevin on 2/8/17.
@@ -72,8 +59,10 @@ public class MainActivity extends AppCompatActivity{
         rest.clear();
     }
 
+    //Testing to check if maps works
+    //Status: Maps works correctly
     public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, ListActivity.class);
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
         startActivity(intent);
     }
 
