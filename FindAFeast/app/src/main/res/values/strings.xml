@@ -1,4 +1,6 @@
 <resources>
+    <color name="orange">#cef56817</color>
+
     <string name="app_name">Find A Feast</string>
     <string name="consumerKey">bS_bqq2XMlZowRME0fZDDQ</string>
     <string name="consumerSecret">YCnOjb9K0uUf-aA8dACC6FRBI_c</string>
@@ -6,4 +8,67 @@
     <string name="tokenSecret">NDFaCMHmxE8fsl4mdhU1jefmVyM</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_key">AIzaSyACnOmu51G4qur_lwQ3EVh_6sc4vDvC_kE</string>
+
+    <string-array name="American_Tags">
+        <item>Burgers</item>
+        <item>Sandwiches</item>
+        <item>Hot Dogs</item>
+        <item>Pizza</item>
+        <item>Diner</item>
+        <item>Brunch</item>
+        <item>Soul Food</item>
+        <item>Steak House</item>
+    </string-array>
+
+    <string-array name="Asian_Tags">
+        <item>Vietnamese</item>
+        <item>Japanese</item>
+        <item>Thai</item>
+        <item>Chinese</item>
+        <item>Indian</item>
+        <item>Middle Eastern</item>
+        <item>Mongolian</item>
+        <item>Laotian</item>
+    </string-array>
+
+    <string-array name="Latin_Tags">
+        <item>Tacos</item>
+        <item>Mexican</item>
+        <item>Brazilian</item>
+        <item>Peruvian</item>
+        <item>Argentina</item>
+        <item>Spanish</item>
+        <item>Chilean</item>
+        <item>Cuban</item>
+    </string-array>
+
+    <string-array name="Seafood_Tags">
+        <item>American</item>
+        <item>Asian</item>
+        <item>Cajun</item>
+        <item>Boils</item>
+    </string-array>
+
+    <string-array name="Beverages_Tags">
+        <item>Boba</item>
+        <item>Coffee</item>
+        <item>Tea</item>
+        <item>Smoothies</item>
+        <item>Juices</item>
+    </string-array>
+
+    <string-array name="Bars_Tags">
+        <item>Drinks</item>
+        <item>Chicken Wings</item>
+        <item>Gastropub</item>
+        <item>Dive Bar</item>
+        <item>Strip Club</item>
+    </string-array>
+
+    <string-array name="Desserts_Tags">
+        <item>Ice Cream</item>
+        <item>Cake</item>
+        <item>Pastries</item>
+    </string-array>
+
 </resources>
