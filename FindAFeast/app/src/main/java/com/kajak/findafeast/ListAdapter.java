@@ -18,10 +18,10 @@ public class ListAdapter extends ArrayAdapter<String> {
     private final ArrayList<String> itemname;
     private final ArrayList<String> imgid;
     private final ArrayList<Double> rating;
-    private final ArrayList<Double> distance;
+    private final ArrayList<ArrayList<String>> address;
 
     public ListAdapter(Activity context, ArrayList<String> itemname, ArrayList<String> imgid,
-                       ArrayList<Double> rating, ArrayList<Double> distance) {
+                       ArrayList<Double> rating, ArrayList<ArrayList<String>> address) {
         super(context, R.layout.mylist, itemname);
         // TODO Auto-generated constructor stub
 
@@ -29,7 +29,7 @@ public class ListAdapter extends ArrayAdapter<String> {
         this.itemname=itemname;
         this.imgid=imgid;
         this.rating = rating;
-        this.distance = distance;
+        this.address = address;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -42,8 +42,8 @@ public class ListAdapter extends ArrayAdapter<String> {
         TextView txtDistance = (TextView) rowView.findViewById(R.id.restaurant_distance);
 
         txtTitle.setText(itemname.get(position));
-        //txtRating.setText("Rating: "+rating[position].toString()+"/5");
-        //txtDistance.setText("Distance: "+distance[position].toString()+" mi");
+        txtRating.setText("Rating: "+ rating.get(position).toString() +"/5");
+        txtDistance.setText("Address: "+ address.get(position).toString());
         Picasso
                 .with(this.context)
                 .load(imgid.get(position))

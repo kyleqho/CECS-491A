@@ -112,7 +112,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
-                            clicked_SubTags.remove(view);
+                            clicked_SubTags.remove(listViewItem);
                             //view.setEnabled(true);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
@@ -162,7 +162,6 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Asian_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
@@ -177,6 +176,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -184,6 +184,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
@@ -246,6 +247,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -253,6 +255,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
@@ -315,6 +318,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -322,6 +326,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
@@ -384,6 +389,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -391,6 +397,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
@@ -453,6 +460,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -460,6 +468,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
@@ -522,6 +531,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
+                            clicked_SubTags.add(listViewItem);
                             view.setBackgroundColor(Color.GRAY);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,true);
@@ -529,6 +539,7 @@ public class TagsActivity extends AppCompatActivity {
 
                         else {
                             hm.put(listViewItem, null);
+                            clicked_SubTags.remove(listViewItem);
                             //listView.setSelector(R.drawable.selector);
                             //listView.setItemChecked(position,false);
                             view.setBackgroundColor(Color.WHITE);
