@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -19,19 +20,23 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener {
 
     private GoogleMap mMap;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
@@ -39,6 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private Marker mCurrentLocation;
     private LatLng currLocation;
+    LocationManager locationManager;
+    //ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
+    ArrayList<Marker> marker = new ArrayList<Marker>();
 
     Button findBtn;
     LatLng latLng;
@@ -61,8 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-        //bdl = getIntent().getExtras();
-        //rest = bdl.getParcelableArrayList("selected");
+        bdl = getIntent().getExtras();
+        rest = bdl.getParcelableArrayList("selected");
 
         findBtn = (Button) findViewById(R.id.btnFind);
         findBtn.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    public boolean checkLocationPermission(){
+    public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -146,15 +154,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-//        currLocation=rest.get(0).getLatLng();
-//        MarkerOptions markOpts = new MarkerOptions();
-//        markOpts.position(currLocation)
-//                .title(rest.get(0).getName())
-//                .snippet(Double.toString(rest.get(0).getRating()))
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-//        Marker yelpMarker = mMap.addMarker(markOpts);
+        currLocation = rest.get(0).getLatLng();
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()),16.5f));
+        MarkerOptions markOpts = new MarkerOptions();
+        markOpts.position(currLocation)
+                .title(rest.get(0).getName())
+                .snippet(Double.toString(rest.get(0).getRating()))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+        Marker yelpMarker = mMap.addMarker(markOpts);
+        marker.add(yelpMarker);
+
+        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        markOpts.position(myLocation)
+                .title("Current Location")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        Marker current = mMap.addMarker(markOpts);
+        marker.add(current);
+
+        LatLngBounds.Builder showAll = new LatLngBounds.Builder();
+        for (Marker markers : marker)
+            showAll.include(markers.getPosition());
+
+        LatLngBounds bounds = showAll.build();
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 150);
+
+        mMap.animateCamera(cu);
     }
 
     @Override

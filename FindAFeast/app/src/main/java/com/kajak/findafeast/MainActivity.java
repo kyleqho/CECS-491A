@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
     //Testing to check if maps works
     //Status: Maps works correctly
     public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        Intent intent = new Intent(MainActivity.this, TagsActivity.class);
         startActivity(intent);
     }
 

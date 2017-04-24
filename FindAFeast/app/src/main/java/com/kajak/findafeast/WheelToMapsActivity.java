@@ -6,15 +6,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kyle Ho on 4/19/2017.
  */
 public class WheelToMapsActivity extends AppCompatActivity{
     Button spin_btn, gothere_btn;
+    ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = this.getIntent();
+        selectedRest = intent.getParcelableArrayListExtra("selected");
+
+        //img.add(response.body().businesses().get(i).imageUrl());
 
         setContentView(R.layout.wheel_maps_transition);
 
@@ -41,7 +49,7 @@ public class WheelToMapsActivity extends AppCompatActivity{
 //                startMap.putParcelableArrayListExtra("selected", selectedRest);
 //                startActivity(startMap);
                 Intent goThere = new Intent(WheelToMapsActivity.this, MapsActivity.class);
-                //goThere.putParcelableArrayListExtra("selected", selectedRest);
+                goThere.putParcelableArrayListExtra("selected", selectedRest);
                 startActivity(goThere);
             }
         });

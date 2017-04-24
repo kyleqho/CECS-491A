@@ -82,13 +82,15 @@ public class ListActivity extends AppCompatActivity {
         mParams = new HashMap<>();
 
         //search terms
-        mParams.put("term", "food");
+        //mParams.put("term", "food");
         Intent intent = getIntent();
+
         temp = intent.getStringArrayListExtra("tags");
         for (int i = 0; i < temp.size(); i++){
             mParams.put("term", temp.get(i));
             tags.add(mParams);
         }
+
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)

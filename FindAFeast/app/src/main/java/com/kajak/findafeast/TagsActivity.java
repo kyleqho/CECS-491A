@@ -39,7 +39,8 @@ public class TagsActivity extends AppCompatActivity {
     private Map<String, Integer> hm;
     private AlertDialog.Builder builder;
     private ArrayAdapter<String> adapter;
-    private ArrayList<View> clicked_SubTags;
+    private ArrayList<String> clicked_SubTags;
+    ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
 
     @Override
@@ -49,7 +50,7 @@ public class TagsActivity extends AppCompatActivity {
         setTitle("Tags");
         hm = new HashMap<String, Integer>();
         builder = new AlertDialog.Builder(TagsActivity.this);
-        clicked_SubTags = new ArrayList<View>();
+        clicked_SubTags = new ArrayList<String>();
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         // TODO: Remove the redundant calls to getSupportActionBar()
@@ -101,7 +102,7 @@ public class TagsActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
-                            clicked_SubTags.add(view);
+                            clicked_SubTags.add(listViewItem);
                             //view.setEnabled(false);
                             view.setBackgroundColor(Color.GRAY);
                             view.setSelected(true);
@@ -143,7 +144,7 @@ public class TagsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         for(int i = 0;i < clicked_SubTags.size();i++) {
-                            clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
+                            //clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
                         }
                     }
                 });
@@ -570,10 +571,13 @@ public class TagsActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = this.getIntent();
+
         Button tag_btn = (Button) this.findViewById(R.id.next);
         tag_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
+                tagsToList.putStringArrayListExtra("tags", clicked_SubTags);
                 startActivity(tagsToList);
             }
         });
