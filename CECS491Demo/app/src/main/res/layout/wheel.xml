@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFCCCCCC">
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
         android:src="@drawable/wheel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/imageView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Spin The Wheel"
-        android:textSize="40dp"
-        android:textColor="#8508C9"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/imageView"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:id="@+id/wheel"
+        android:scaleType="matrix"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"></ImageView>
+</LinearLayout>

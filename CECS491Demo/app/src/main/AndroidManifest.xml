@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Grid" />
+        <activity android:name=".American_Subtags" />
     </application>
 
 </manifest>

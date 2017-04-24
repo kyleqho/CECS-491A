@@ -15,6 +15,7 @@ public class WheelActivity extends AppCompatActivity {
     // TODO: Externalize string-array
     //String wheelMenu1[] = new String[]{"name 1", "name 2", "name 3", "name 4", "name 5", "name 6","name 7","name 8","name 9"};
     ArrayList<Restaurant> restaurants;
+    ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
 
     // Wheel scrolled flag
     private boolean wheelScrolled = false;
@@ -39,15 +40,17 @@ public class WheelActivity extends AppCompatActivity {
                 final int x =  r.nextInt(size);
 
                 final WheelView wheel = (WheelView) findViewById(R.id.p1);
-                //System.out.println("_____________________X=" + x + "____________________________ ");
+
                 int dist =  (size * 30) + x;
                 wheel.scroll(dist,6000);
+
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        selectedRest.add(restaurants.get(x));
                         Intent wheelTransition = new Intent(WheelActivity.this, WheelToMapsActivity.class);
-                        //wheelTransition.putParcelableArrayListExtra("selected", selectedRest);
+                        wheelTransition.putParcelableArrayListExtra("selected", selectedRest);
                         startActivity(wheelTransition);
                     }
                 }, 9000);

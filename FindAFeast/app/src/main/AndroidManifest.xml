@@ -48,6 +48,7 @@
             android:label="ListActivity"></activity>
         <activity android:name=".WheelActivity"/>
         <activity android:name=".WheelToMapsActivity"/>
+        <activity android:name=".TagsActivity"/>
     </application>
 
 </manifest>

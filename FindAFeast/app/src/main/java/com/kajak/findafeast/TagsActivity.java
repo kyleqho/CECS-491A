@@ -1,12 +1,17 @@
-package edu.csulb.android.cecs491;
+package com.kajak.findafeast;
+
+/**
+ * Created by Ash on 4/23/2017.
+ */
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class TagsActivity extends AppCompatActivity {
     static Button buttonClick;
     private Button American;
     private Button Asian;
@@ -34,16 +39,18 @@ public class MainActivity extends AppCompatActivity {
     private Map<String, Integer> hm;
     private AlertDialog.Builder builder;
     private ArrayAdapter<String> adapter;
-    private ArrayList<View> clicked_SubTags;
+    private ArrayList<String> clicked_SubTags;
+    ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tags);
+        setTitle("Tags");
         hm = new HashMap<String, Integer>();
-        builder = new AlertDialog.Builder(MainActivity.this);
-        clicked_SubTags = new ArrayList<View>();
+        builder = new AlertDialog.Builder(TagsActivity.this);
+        clicked_SubTags = new ArrayList<String>();
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         // TODO: Remove the redundant calls to getSupportActionBar()
@@ -55,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
         American.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 Parcelable state = listView.onSaveInstanceState();
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.American_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.American_Tags));
                 listView.setAdapter(adapter);
 
                 //builder = new AlertDialog.Builder(view.getContext());
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                         String listViewItem = listView.getItemAtPosition(position).toString();
                         if(hm.get(listViewItem) == null) {
                             hm.put(listViewItem, 1);
-                            clicked_SubTags.add(view);
+                            clicked_SubTags.add(listViewItem);
                             //view.setEnabled(false);
                             view.setBackgroundColor(Color.GRAY);
                             view.setSelected(true);
@@ -137,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         for(int i = 0;i < clicked_SubTags.size();i++) {
-                            clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
+                            //clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
                         }
                     }
                 });
@@ -153,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
         Asian.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Asian_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Asian_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -222,10 +229,10 @@ public class MainActivity extends AppCompatActivity {
         Latin.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Latin_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Latin_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -291,10 +298,10 @@ public class MainActivity extends AppCompatActivity {
         Seafood.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Seafood_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Seafood_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -360,10 +367,10 @@ public class MainActivity extends AppCompatActivity {
         Beverages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Beverages_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Beverages_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -429,10 +436,10 @@ public class MainActivity extends AppCompatActivity {
         Bars.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Bars_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Bars_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -498,10 +505,10 @@ public class MainActivity extends AppCompatActivity {
         Desserts.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listView = new ListView(MainActivity.this);
+                listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
 
-                adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Desserts_Tags));
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Desserts_Tags));
                 listView.setAdapter(adapter);
                 //builder = new AlertDialog.Builder(view.getContext());
 
@@ -564,6 +571,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = this.getIntent();
+
+        Button tag_btn = (Button) this.findViewById(R.id.next);
+        tag_btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
+                tagsToList.putStringArrayListExtra("tags", clicked_SubTags);
+                startActivity(tagsToList);
+            }
+        });
+
     }
 
     public void onClick(View view) {
@@ -584,3 +602,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
