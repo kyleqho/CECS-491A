@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 
@@ -24,6 +27,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.os.ParcelableCompat;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
@@ -43,7 +49,8 @@ import retrofit2.Response;
 /**
  * Created by Kevin on 2/19/17.
  */
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
     ListView list;
     LatLng current_position;
     double mLatitude;
@@ -56,12 +63,17 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
+    ArrayList<Map<String, String>>  tags = new ArrayList<>();
+    ArrayList<String> temp = new ArrayList<>();
     final float LOCATION_REFRESH = 10;
     final long LOCATION_DISTANCE = 100;
 
     LocationManager locationManager;
 
     private final double METER_MILE_CONVERSION = 1609.344;
+
+    private GoogleApiClient googleApiClient;
+    private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
@@ -89,41 +101,47 @@ public class ListActivity extends AppCompatActivity {
         //search terms
         mParams.put("term", "food");
 
-        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        Intent intent = getIntent();
+        temp = intent.getStringArrayListExtra("tags");
+        for (int i = 0; i < temp.size(); i++){
+            mParams.put("term", temp.get(i));
+            tags.add(mParams);
         }
-        Location currentLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        mLongitude = currentLocation.getLongitude();
-        mLatitude = currentLocation.getLatitude();
-//        new FetchPictures().execute();
-//
+
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+
+        btn = (Button) findViewById(R.id.mapBtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
+                startWheel.putParcelableArrayListExtra("selected", selectedRest);
+                startActivity(startWheel);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        googleApiClient.connect();
+        super.onStart();
+
+        // Need to delay the rest of the code until the GoogleApiClient is connected
 
         try {
-            String str_result= new FetchPictures().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+            new FetchPictures().execute().get();
+        } catch (InterruptedException | ExecutionException ex) {
+            ex.printStackTrace();
         }
 
-        final Intent startMap = new Intent(ListActivity.this, MapsActivity.class);
-
         ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
-            list = (ListView) findViewById(R.id.list);
-            list.setAdapter(adapt);
-            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        list = (ListView) findViewById(R.id.list);
+        list.setAdapter(adapt);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addToSelection(position);
@@ -131,21 +149,41 @@ public class ListActivity extends AppCompatActivity {
                 //startActivity(startMap);
             }
         });
+    }
 
-        btn = (Button) findViewById(R.id.mapBtn);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startMap.putExtra("selected", selectedRest);
-//                startActivity(startMap);
-//                startMap.putParcelableArrayListExtra("selected", selectedRest);
-//                startActivity(startMap);
-                Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
-                startWheel.putParcelableArrayListExtra("selected", selectedRest);
-                startActivity(startWheel);
+    @Override
+    public void onStop() {
+        googleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
             }
-        });
+        } else {
+            Log.i("connection_failed", "Location services failed with code " + connectionResult.getErrorCode());
+            Log.i("connection_fail", connectionResult.getErrorMessage());
+        }
+    }
 
+    @Override
+    public void onConnected(@Nullable Bundle bundle) throws SecurityException {
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if (lastLocation == null) {
+            Log.d("last_loc", "Last location is null");
+        } else {
+            mLatitude = lastLocation.getLatitude();
+            mLongitude = lastLocation.getLongitude();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
 
     }
 
