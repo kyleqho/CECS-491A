@@ -29,6 +29,8 @@ import android.support.v4.os.ParcelableCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.yelp.clientlib.connection.YelpAPI;
@@ -50,7 +52,7 @@ import retrofit2.Response;
  * Created by Kevin on 2/19/17.
  */
 public class ListActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks {
+        GoogleApiClient.ConnectionCallbacks, LocationListener {
     ListView list;
     LatLng current_position;
     double mLatitude;
@@ -74,6 +76,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
     private GoogleApiClient googleApiClient;
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private LocationRequest locationRequest;
 
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
@@ -101,18 +104,23 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         //search terms
         mParams.put("term", "food");
 
-        Intent intent = getIntent();
-        temp = intent.getStringArrayListExtra("tags");
-        for (int i = 0; i < temp.size(); i++){
-            mParams.put("term", temp.get(i));
-            tags.add(mParams);
-        }
+//        Intent intent = getIntent();
+//        temp = intent.getStringArrayListExtra("tags");
+//        for (int i = 0; i < temp.size(); i++){
+//            mParams.put("term", temp.get(i));
+//            tags.add(mParams);
+//        }
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_LOW_POWER)
+                .setInterval(5000)
+                .setFastestInterval(1000);
 
         btn = (Button) findViewById(R.id.mapBtn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -132,23 +140,23 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
         // Need to delay the rest of the code until the GoogleApiClient is connected
 
-        try {
-            new FetchPictures().execute().get();
-        } catch (InterruptedException | ExecutionException ex) {
-            ex.printStackTrace();
-        }
-
-        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
-        list = (ListView) findViewById(R.id.list);
-        list.setAdapter(adapt);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                addToSelection(position);
-                //startMap.putExtra("selected", selectedRest);
-                //startActivity(startMap);
-            }
-        });
+//        try {
+//            new FetchPictures().execute().get();
+//        } catch (InterruptedException | ExecutionException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
+//        list = (ListView) findViewById(R.id.list);
+//        list.setAdapter(adapt);
+//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                addToSelection(position);
+//                //startMap.putExtra("selected", selectedRest);
+//                //startActivity(startMap);
+//            }
+//        });
     }
 
     @Override
@@ -175,16 +183,45 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnected(@Nullable Bundle bundle) throws SecurityException {
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation == null) {
-            Log.d("last_loc", "Last location is null");
+            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this).await();
         } else {
-            mLatitude = lastLocation.getLatitude();
-            mLongitude = lastLocation.getLongitude();
+            handleNewLocation(lastLocation);
         }
+
+        try {
+            new FetchPictures().execute().get();
+        } catch (InterruptedException | ExecutionException ex) {
+            ex.printStackTrace();
+        }
+
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+
+        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
+        list = (ListView) findViewById(R.id.list);
+        list.setAdapter(adapt);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                addToSelection(position);
+                //startMap.putExtra("selected", selectedRest);
+                //startActivity(startMap);
+            }
+        });
     }
 
     @Override
     public void onConnectionSuspended(int i) {
 
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        handleNewLocation(location);
+    }
+
+    private void handleNewLocation(Location loc) {
+        mLatitude = loc.getLatitude();
+        mLongitude = loc.getLongitude();
     }
 
 
