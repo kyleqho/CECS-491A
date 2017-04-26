@@ -189,13 +189,13 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             handleNewLocation(lastLocation);
         }
 
+        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
+
         try {
             new FetchPictures().execute().get();
         } catch (InterruptedException | ExecutionException ex) {
             ex.printStackTrace();
         }
-
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
 
         ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
         list = (ListView) findViewById(R.id.list);
@@ -262,11 +262,9 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
                         addresses.add(response.body().businesses().get(i).location().address());
                         rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
-
                     }
                 }
                 tags.remove(0);
-
             }
 
             return null;
