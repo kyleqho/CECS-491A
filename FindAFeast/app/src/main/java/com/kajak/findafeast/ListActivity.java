@@ -182,6 +182,7 @@ public class ListActivity extends AppCompatActivity {
                     for (int i = 0; i < 5; i++) {
                         img.add(response.body().businesses().get(i).imageUrl());
                         name.add(response.body().businesses().get(i).name());
+                        //System.out.println("add name " + name.toString());
                         rating.add(response.body().businesses().get(i).rating());
                         //distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
                         coordinates.add(new LatLng(
@@ -189,13 +190,17 @@ public class ListActivity extends AppCompatActivity {
                                 response.body().businesses().get(i).location().coordinate().longitude()));
 
                         addresses.add(response.body().businesses().get(i).location().address());
-                        rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
 
                     }
+
                 }
                 tags.remove(0);
 
             }
+            for(int i = 0; i < name.size(); i++){
+                rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i), img.get(i)));
+            }
+            //System.out.println("rest " + rest.toString());
 
             return null;
         }

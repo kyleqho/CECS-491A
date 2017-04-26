@@ -17,29 +17,34 @@ public class Restaurant implements Parcelable {
     private LatLng latLng;
     private ArrayList<String> address;
     private double rating;
+    private String image;
 
-    public Restaurant(String name, LatLng latLng, ArrayList<String> address, double rating) {
+    public Restaurant(String name, LatLng latLng, ArrayList<String> address, double rating, String image) {
         this.name = name;
         this.latLng = latLng;
         this.address = address;
         this.rating = rating;
+        this.image = image;
     }
 
-    public Restaurant(String name, double lat, double lng, ArrayList<String> address, double rating) {
+    public Restaurant(String name, double lat, double lng, ArrayList<String> address, double rating, String image) {
         this.name = name;
         latLng = new LatLng(lat, lng);
         this.address = address;
         this.rating = rating;
+        this.image = image;
     }
 
-    public Restaurant(String name, LatLng latLng, ArrayList<String> address) {
+    public Restaurant(String name, LatLng latLng, ArrayList<String> address, String image) {
         this.name = name;
+        this.image = image;
         this.latLng = latLng;
         this.address = address;
     }
 
-    public Restaurant(String name, double lat, double lng, ArrayList<String> address) {
+    public Restaurant(String name, double lat, double lng, ArrayList<String> address, String image) {
         this.name = name;
+        this.image = image;
         latLng = new LatLng(lat, lng);
         this.address = address;
     }
@@ -60,6 +65,8 @@ public class Restaurant implements Parcelable {
         return name;
     }
 
+    public String getImage() { return image;}
+
     public ArrayList<String> getAddress() {
         return address;
     }
@@ -73,7 +80,6 @@ public class Restaurant implements Parcelable {
         return name;
     }
 
-
     protected Restaurant(Parcel in) {
         name = in.readString();
         latLng = (LatLng) in.readValue(LatLng.class.getClassLoader());
@@ -84,6 +90,7 @@ public class Restaurant implements Parcelable {
             address = null;
         }
         rating = in.readDouble();
+        image = in.readString();
     }
 
     @Override
@@ -102,6 +109,7 @@ public class Restaurant implements Parcelable {
             dest.writeList(address);
         }
         dest.writeDouble(rating);
+        dest.writeString(image);
     }
 
     @SuppressWarnings("unused")
