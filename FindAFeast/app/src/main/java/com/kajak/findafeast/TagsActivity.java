@@ -39,7 +39,7 @@ public class TagsActivity extends AppCompatActivity {
     private Map<String, Integer> hm;
     private AlertDialog.Builder builder;
     private ArrayAdapter<String> adapter;
-    private ArrayList<String> clicked_SubTags;
+    private ArrayList<String> clicked_Tags;
     ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
 
@@ -50,7 +50,7 @@ public class TagsActivity extends AppCompatActivity {
         setTitle("Tags");
         hm = new HashMap<String, Integer>();
         builder = new AlertDialog.Builder(TagsActivity.this);
-        clicked_SubTags = new ArrayList<String>();
+        clicked_Tags = new ArrayList<String>();
         actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         // TODO: Remove the redundant calls to getSupportActionBar()
@@ -63,96 +63,12 @@ public class TagsActivity extends AppCompatActivity {
             @Override
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
-                Parcelable state = listView.onSaveInstanceState();
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.American_Tags));
                 listView.setAdapter(adapter);
-
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-                /*for(int i = 0;i < clicked_SubTags.size();i++) {
-                    clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
-                }*/
-
-
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        /*for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                view.setBackgroundColor(Color.WHITE);
-                                System.out.println(entry.getKey());
-                                System.out.println(entry.getValue());
-                            }
-
-                            if(entry.getValue() == 1) {
-                                //System.out.println(key);
-                                System.out.println(entry.getKey());
-                                System.out.println(entry.getValue());
-                                view.setBackgroundColor(Color.GRAY);
-                            }
-                        }*/
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            //view.setEnabled(false);
-                            view.setBackgroundColor(Color.GRAY);
-                            view.setSelected(true);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //view.setEnabled(true);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                            view.setSelected(false);
-                        }
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-
-                            if(entry.getValue() != null) {
-                                System.out.println(key);
-                                //view.setBackground(Color.WHITE);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        for(int i = 0;i < clicked_SubTags.size();i++) {
-                            //clicked_SubTags.get(i).setBackgroundColor(Color.GRAY);
-                        }
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -164,65 +80,9 @@ public class TagsActivity extends AppCompatActivity {
                 buttonClick = (Button) findViewById(view.getId());
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Asian_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -232,68 +92,11 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Latin_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -303,68 +106,11 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Seafood_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -374,68 +120,11 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Beverages_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -445,68 +134,11 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Bars_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -516,68 +148,11 @@ public class TagsActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 listView = new ListView(TagsActivity.this);
                 buttonClick = (Button) findViewById(view.getId());
-
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Desserts_Tags));
                 listView.setAdapter(adapter);
-                //builder = new AlertDialog.Builder(view.getContext());
-
                 builder.setView(listView);
 
-
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
-                        //itemView = view;
-                        String listViewItem = listView.getItemAtPosition(position).toString();
-                        if(hm.get(listViewItem) == null) {
-                            hm.put(listViewItem, 1);
-                            clicked_SubTags.add(listViewItem);
-                            view.setBackgroundColor(Color.GRAY);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,true);
-                        }
-
-                        else {
-                            hm.put(listViewItem, null);
-                            clicked_SubTags.remove(listViewItem);
-                            //listView.setSelector(R.drawable.selector);
-                            //listView.setItemChecked(position,false);
-                            view.setBackgroundColor(Color.WHITE);
-                        }
-                        System.out.println(hm.get("Steak House"));
-                        ViewGroup vg = (ViewGroup) view;
-                        TextView tv = (TextView) vg.findViewById(R.id.text_item);
-
-                        Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-                    }
-                });
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        for (Map.Entry<String,Integer> entry : hm.entrySet()) {
-                            String key = entry.getKey();
-                            int value = 1;
-                            if(entry.getValue() == null) {
-                                value = 0;
-                            }
-
-                            if(value == 1) {
-                                System.out.println(key);
-                            }
-                        }
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+                createListView(listView, builder);
                 return true;
             }
         });
@@ -588,17 +163,77 @@ public class TagsActivity extends AppCompatActivity {
         tag_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
-                tagsToList.putStringArrayListExtra("tags", clicked_SubTags);
+                tagsToList.putStringArrayListExtra("tags", clicked_Tags);
                 startActivity(tagsToList);
             }
         });
 
     }
 
-    public void onClick(View view) {
+    public void createListView(final ListView lv, AlertDialog.Builder build) {
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg) {
+                String listViewItem = lv.getItemAtPosition(position).toString();
+                if(hm.get(listViewItem) == null) {
+                    hm.put(listViewItem, 1);
+                    clicked_Tags.add(listViewItem);
+                    view.setBackgroundColor(Color.GRAY);
+                    view.setSelected(true);
+                }
 
+                else {
+                    hm.put(listViewItem, null);
+                    clicked_Tags.remove(listViewItem);
+                    view.setBackgroundColor(Color.WHITE);
+                    view.setSelected(false);
+                }
+                ViewGroup vg = (ViewGroup) view;
+                TextView tv = (TextView) vg.findViewById(R.id.text_item);
+                Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+            }
+        });
+
+        build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (Map.Entry<String,Integer> entry : hm.entrySet()) {
+                    String key = entry.getKey();
+                    int value = 1;
+
+                    if(entry.getValue() != null) {
+                        System.out.println(key);
+                    }
+                }
+            }
+        });
+        build.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = build.create();
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
+    }
+
+    public void onClick(View view) {
         Button clicked = (Button) findViewById(view.getId());
+        String buttonText = clicked.getText().toString();
+        tapTag(buttonText);
         Toast.makeText(getBaseContext(), "TAP", Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+    }
+
+    public void tapTag(String buttonText) {
+        if(clicked_Tags.contains(buttonText)) {
+            clicked_Tags.remove(buttonText);
+        }
+        else {
+            clicked_Tags.add(buttonText);
+        }
     }
 
     @Override
