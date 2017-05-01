@@ -23,6 +23,7 @@
     <string-array name="Asian_Tags">
         <item>Vietnamese</item>
         <item>Japanese</item>
+        <item>Korean</item>
         <item>Thai</item>
         <item>Chinese</item>
         <item>Indian</item>
