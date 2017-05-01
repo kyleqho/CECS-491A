@@ -36,24 +36,25 @@ public class WheelActivity extends AppCompatActivity {
         Button spin = (Button) this.findViewById(R.id.spin);
         spin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                selectedRest.clear();
                 Random r = new Random();
                 final int x =  r.nextInt(size);
 
                 final WheelView wheel = (WheelView) findViewById(R.id.p1);
 
-                int dist =  (size * 30) + x;
+                int dist =  (size * 30)+x;
                 wheel.scroll(dist,6000);
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        selectedRest.add(restaurants.get(x));
+                        selectedRest.add(restaurants.get(wheel.getCurrentItem()));
                         Intent wheelTransition = new Intent(WheelActivity.this, WheelToMapsActivity.class);
                         wheelTransition.putParcelableArrayListExtra("selected", selectedRest);
                         startActivity(wheelTransition);
                     }
-                }, 9000);
+                }, 5500);
             }
         });
     }

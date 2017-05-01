@@ -93,14 +93,16 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         mYelpAPI = mApiFactory.createAPI();
 
         //map of params
-        mParams = new HashMap<>();
+
 
         //search terms
         //mParams.put("term", "food");
         Intent intent = getIntent();
 
         temp = intent.getStringArrayListExtra("tags");
+        //System.out.println(temp);
         for (int i = 0; i < temp.size(); i++){
+            mParams = new HashMap<>();
             mParams.put("term", temp.get(i));
             tags.add(mParams);
         }
@@ -197,13 +199,14 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             ex.printStackTrace();
         }
 
-        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
+        ListAdapter adapt = new ListAdapter(this, name, img, rating, addresses);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapt);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addToSelection(position);
+                //System.out.println(position);
                 //startMap.putExtra("selected", selectedRest);
                 //startActivity(startMap);
             }
@@ -251,21 +254,27 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 if (response != null) {
 
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 5; i++) {
                         img.add(response.body().businesses().get(i).imageUrl());
                         name.add(response.body().businesses().get(i).name());
+                        //System.out.println("add name " + name.toString());
                         rating.add(response.body().businesses().get(i).rating());
-                        distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
+                        //distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
                         coordinates.add(new LatLng(
                                 response.body().businesses().get(i).location().coordinate().latitude(),
                                 response.body().businesses().get(i).location().coordinate().longitude()));
 
                         addresses.add(response.body().businesses().get(i).location().address());
-                        rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i)));
+                        rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), img.get(i)));
                     }
+
                 }
                 tags.remove(0);
             }
+            for(int i = 0; i < name.size(); i++){
+                rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i), img.get(i)));
+            }
+            //System.out.println("rest " + rest.toString());
 
             return null;
         }
