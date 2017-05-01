@@ -224,7 +224,7 @@ public class TagsActivity extends AppCompatActivity {
         Button clicked = (Button) findViewById(view.getId());
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
-        Toast.makeText(getBaseContext(), "TAP", Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+        Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
     }
 
     public void tapTag(String buttonText) {
