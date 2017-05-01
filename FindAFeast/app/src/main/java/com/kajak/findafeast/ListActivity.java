@@ -92,11 +92,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         //create yelp object
         mYelpAPI = mApiFactory.createAPI();
 
-        //map of params
-
-
         //search terms
-        //mParams.put("term", "food");
         Intent intent = getIntent();
 
         temp = intent.getStringArrayListExtra("tags");
@@ -106,13 +102,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             mParams.put("term", temp.get(i));
             tags.add(mParams);
         }
-
-//        Intent intent = getIntent();
-//        temp = intent.getStringArrayListExtra("tags");
-//        for (int i = 0; i < temp.size(); i++){
-//            mParams.put("term", temp.get(i));
-//            tags.add(mParams);
-//        }
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -140,26 +129,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onStart() {
         googleApiClient.connect();
         super.onStart();
-
-        // Need to delay the rest of the code until the GoogleApiClient is connected
-
-//        try {
-//            new FetchPictures().execute().get();
-//        } catch (InterruptedException | ExecutionException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
-//        list = (ListView) findViewById(R.id.list);
-//        list.setAdapter(adapt);
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                addToSelection(position);
-//                //startMap.putExtra("selected", selectedRest);
-//                //startActivity(startMap);
-//            }
-//        });
     }
 
     @Override
