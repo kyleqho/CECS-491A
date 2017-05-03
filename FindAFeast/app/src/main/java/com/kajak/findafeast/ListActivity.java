@@ -102,7 +102,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 selectedRest.add(reAdd.get(i));
             }
         }
-
         Intent intent = getIntent();
 
         temp = intent.getStringArrayListExtra("tags");

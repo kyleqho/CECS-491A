@@ -7,6 +7,7 @@ package com.kajak.findafeast;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBar;
@@ -53,11 +54,8 @@ public class TagsActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(TagsActivity.this);
         clicked_Tags = new ArrayList<String>();
         actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        // TODO: Remove the redundant calls to getSupportActionBar()
-        //       and use variable actionBar instead
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
 
         Intent preCondition = this.getIntent();
         temp = preCondition.getStringArrayListExtra("tags");
@@ -71,105 +69,20 @@ public class TagsActivity extends AppCompatActivity {
 
 
         American = (Button) findViewById(R.id.button4);
-        American.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.American_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Asian = (Button) findViewById(R.id.button6);
-        Asian.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Asian_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Latin = (Button) findViewById(R.id.button11);
-        Latin.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Latin_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Seafood = (Button) findViewById(R.id.button3);
-        Seafood.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Seafood_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Beverages = (Button) findViewById(R.id.button2);
-        Beverages.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Beverages_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Bars = (Button) findViewById(R.id.button5);
-        Bars.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Bars_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
-
-                createListView(listView, builder);
-                return true;
-            }
-        });
         Desserts = (Button) findViewById(R.id.button9);
-        Desserts.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listView = new ListView(TagsActivity.this);
-                buttonClick = (Button) findViewById(view.getId());
-                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, getResources().getStringArray(R.array.Desserts_Tags));
-                listView.setAdapter(adapter);
-                builder.setView(listView);
 
-                createListView(listView, builder);
-                return true;
-            }
-        });
-
-        Intent intent = this.getIntent();
+        SetOnLongClickListener(American, getResources().getStringArray(R.array.American_Tags));
+        SetOnLongClickListener(Asian, getResources().getStringArray(R.array.Asian_Tags));
+        SetOnLongClickListener(Latin, getResources().getStringArray(R.array.Latin_Tags));
+        SetOnLongClickListener(Seafood, getResources().getStringArray(R.array.Seafood_Tags));
+        SetOnLongClickListener(Beverages, getResources().getStringArray(R.array.Beverages_Tags));
+        SetOnLongClickListener(Bars, getResources().getStringArray(R.array.Bars_Tags));
+        SetOnLongClickListener(Desserts, getResources().getStringArray(R.array.Desserts_Tags));
 
         Button tag_btn = (Button) this.findViewById(R.id.next);
         tag_btn.setOnClickListener(new View.OnClickListener() {
@@ -268,5 +181,21 @@ public class TagsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-}
 
+    private void SetOnLongClickListener(Button button, final String[] subtags) {
+        button.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listView = new ListView(TagsActivity.this);
+                buttonClick = (Button) findViewById(view.getId());
+                adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, subtags);
+                listView.setAdapter(adapter);
+                builder.setView(listView);
+
+                createListView(listView, builder);
+                return true;
+            }
+        });
+    }
+
+}
