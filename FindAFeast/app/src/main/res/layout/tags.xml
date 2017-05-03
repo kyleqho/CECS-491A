@@ -102,7 +102,17 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:id="@+id/next"
+        android:layout_alignBaseline="@+id/button2"
         android:layout_alignBottom="@+id/button2"
         android:layout_alignStart="@+id/button9" />
+
+    <Button
+        android:text="Clear List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clear"
+        android:layout_alignBaseline="@+id/button2"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

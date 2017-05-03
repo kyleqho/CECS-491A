@@ -53,11 +53,12 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     ArrayList<String> name = new ArrayList<String>();
     ArrayList<String> img = new ArrayList<String>();
     ArrayList<Double> rating = new ArrayList<Double>();
-    ArrayList<Double> distance = new ArrayList<Double>();
+    //ArrayList<Double> distance = new ArrayList<Double>();
     ArrayList<LatLng> coordinates = new ArrayList<>();
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
+    ArrayList<Restaurant> reAdd = new ArrayList<Restaurant>();
     ArrayList<Map<String, String>> tags = new ArrayList<>();
     ArrayList<String> temp = new ArrayList<String>();
 
@@ -77,6 +78,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     Map<String, String> mParams;
     MapsActivity mAct;
     Button btn;
+    Button btn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,27 +94,24 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         //create yelp object
         mYelpAPI = mApiFactory.createAPI();
 
-        //map of params
+        Intent reAddRestaurants = this.getIntent();
+        reAdd = reAddRestaurants.getParcelableArrayListExtra("selected");
+        if(reAdd != null)
+        {
+            for(int i =0;i<reAdd.size();i++) {
+                selectedRest.add(reAdd.get(i));
+            }
+        }
 
-
-        //search terms
-        //mParams.put("term", "food");
         Intent intent = getIntent();
 
         temp = intent.getStringArrayListExtra("tags");
-        //System.out.println(temp);
+        System.out.println(temp);
         for (int i = 0; i < temp.size(); i++){
             mParams = new HashMap<>();
             mParams.put("term", temp.get(i));
             tags.add(mParams);
         }
-
-//        Intent intent = getIntent();
-//        temp = intent.getStringArrayListExtra("tags");
-//        for (int i = 0; i < temp.size(); i++){
-//            mParams.put("term", temp.get(i));
-//            tags.add(mParams);
-//        }
 
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -126,12 +125,29 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 .setFastestInterval(1000);
 
         btn = (Button) findViewById(R.id.mapBtn);
-        btn.setOnClickListener(new View.OnClickListener() {
+        if(selectedRest != null)
+        {
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
+                    startWheel.putParcelableArrayListExtra("selected", selectedRest);
+                    startActivity(startWheel);
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(this, "Nothing within the list!", Toast.LENGTH_SHORT).show();
+        }
+
+        btn2 = (Button) findViewById(R.id.backBtn);
+        btn2.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-                Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
-                startWheel.putParcelableArrayListExtra("selected", selectedRest);
-                startActivity(startWheel);
+            public void onClick(View v){
+                Intent goBack = new Intent(ListActivity.this, TagsActivity.class);
+                goBack.putStringArrayListExtra("tags", temp);
+                startActivity(goBack);
             }
         });
     }
@@ -140,26 +156,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onStart() {
         googleApiClient.connect();
         super.onStart();
-
-        // Need to delay the rest of the code until the GoogleApiClient is connected
-
-//        try {
-//            new FetchPictures().execute().get();
-//        } catch (InterruptedException | ExecutionException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        ListAdapter adapt = new ListAdapter(this, name, img, rating, distance);
-//        list = (ListView) findViewById(R.id.list);
-//        list.setAdapter(adapt);
-//        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                addToSelection(position);
-//                //startMap.putExtra("selected", selectedRest);
-//                //startActivity(startMap);
-//            }
-//        });
     }
 
     @Override
@@ -206,9 +202,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 addToSelection(position);
-                //System.out.println(position);
-                //startMap.putExtra("selected", selectedRest);
-                //startActivity(startMap);
             }
         });
     }

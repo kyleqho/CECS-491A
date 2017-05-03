@@ -76,9 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         findBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this, ListActivity.class);
-                intent.putExtra("latitude", latLng.latitude);
-                intent.putExtra("longitude", latLng.longitude);
+                Intent intent = new Intent(MapsActivity.this, TagsActivity.class);
                 startActivity(intent);
             }
         });

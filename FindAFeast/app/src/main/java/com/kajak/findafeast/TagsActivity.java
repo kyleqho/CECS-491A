@@ -42,6 +42,7 @@ public class TagsActivity extends AppCompatActivity {
     private ArrayList<String> clicked_Tags;
     ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
+    ArrayList<String> temp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,17 @@ public class TagsActivity extends AppCompatActivity {
         //       and use variable actionBar instead
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        Intent preCondition = this.getIntent();
+        temp = preCondition.getStringArrayListExtra("tags");
+
+        if(temp != null) {
+            for (int i = 0; i < temp.size(); i++) {
+                clicked_Tags.add(temp.get(i));
+                System.out.println(clicked_Tags.get(i));
+            }
+        }
+
 
         American = (Button) findViewById(R.id.button4);
         American.setOnLongClickListener(new View.OnLongClickListener() {
@@ -165,6 +177,15 @@ public class TagsActivity extends AppCompatActivity {
                 Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
                 tagsToList.putStringArrayListExtra("tags", clicked_Tags);
                 startActivity(tagsToList);
+            }
+        });
+
+        Button clear_btn = (Button) this.findViewById(R.id.clear);
+        clear_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clicked_Tags.clear();
+                Toast.makeText(getBaseContext(), "Tags have been cleared.", Toast.LENGTH_SHORT).show();
             }
         });
 

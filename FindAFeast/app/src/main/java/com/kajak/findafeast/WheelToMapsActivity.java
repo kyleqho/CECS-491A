@@ -53,10 +53,6 @@ public class WheelToMapsActivity extends AppCompatActivity{
         gothere_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startMap.putExtra("selected", selectedRest);
-//                startActivity(startMap);
-//                startMap.putParcelableArrayListExtra("selected", selectedRest);
-//                startActivity(startMap);
                 Intent goThere = new Intent(WheelToMapsActivity.this, MapsActivity.class);
                 goThere.putParcelableArrayListExtra("selected", selectedRest);
                 startActivity(goThere);
