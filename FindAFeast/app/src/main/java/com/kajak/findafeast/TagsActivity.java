@@ -96,7 +96,7 @@ public class TagsActivity extends AppCompatActivity {
                         tagsToList.putStringArrayListExtra("tags", clicked_Tags);
                         startActivity(tagsToList);
                     }
-                }, 5000);
+                }, 2500);
             }
         });
 

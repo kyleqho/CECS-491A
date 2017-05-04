@@ -16,11 +16,6 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
-/**
- * Numeric wheel view.
- * 
- * @author Yuri Kanivets
- */
 public class WheelView extends View {
 
 	/** Top and bottom shadows colors */
@@ -160,9 +155,9 @@ public class WheelView extends View {
 	 * 
 	 * @return the count of visible items
 	 */
-//	public int getVisibleItems() {
-//		return visibleItems;
-//	}
+	public int getVisibleItems() {
+		return visibleItems;
+	}
 
 	/**
 	 * Sets the desired count of visible items.
@@ -171,9 +166,9 @@ public class WheelView extends View {
 	 * 
 	 * @param count the desired count for visible items
 	 */
-//	public void setVisibleItems(int count) {
-//		visibleItems = count;
-//	}
+	public void setVisibleItems(int count) {
+		visibleItems = count;
+	}
 
 	/**
 	 * Gets view adapter

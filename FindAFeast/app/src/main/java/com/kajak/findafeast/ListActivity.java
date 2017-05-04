@@ -28,7 +28,6 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,12 +48,10 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     ArrayList<String> name = new ArrayList<String>();
     ArrayList<String> img = new ArrayList<String>();
     ArrayList<Double> rating = new ArrayList<Double>();
-    //ArrayList<Double> distance = new ArrayList<Double>();
     ArrayList<LatLng> coordinates = new ArrayList<>();
     ArrayList<ArrayList<String>> addresses = new ArrayList<>();
     ArrayList<Restaurant> rest = new ArrayList<Restaurant>();
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
-    ArrayList<Restaurant> reAdd = new ArrayList<Restaurant>();
     ArrayList<Map<String, String>> tags = new ArrayList<>();
     ArrayList<String> temp = new ArrayList<String>();
 
@@ -62,8 +59,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     final long LOCATION_DISTANCE = 100;
 
     LocationManager locationManager;
-
-    private final double METER_MILE_CONVERSION = 1609.344;
 
     private GoogleApiClient googleApiClient;
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -90,15 +85,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         //create yelp object
         mYelpAPI = mApiFactory.createAPI();
 
-//        Intent reAddRestaurants = this.getIntent();
-//        reAdd = reAddRestaurants.getParcelableArrayListExtra("selected");
-//        if(reAdd != null)
-//        {
-//            for(int i =0;i<reAdd.size();i++) {
-//                selectedRest.add(reAdd.get(i));
-//            }
-//        }
-
         Intent intent = getIntent();
         temp = intent.getStringArrayListExtra("tags");
         System.out.println(temp);
@@ -120,8 +106,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 .setFastestInterval(1000);
 
         btn = (Button) findViewById(R.id.mapBtn);
-        if(selectedRest != null)
-        {
+
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -130,12 +115,8 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                     startActivity(startWheel);
                 }
             });
-        }
-        else
-        {
-            Toast.makeText(this, "Nothing within the list!", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+
+
 
         btn2 = (Button) findViewById(R.id.backBtn);
         btn2.setOnClickListener(new View.OnClickListener(){
@@ -246,15 +227,11 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                     for (int i = 0; i < 5; i++) {
                         img.add(response.body().businesses().get(i).imageUrl());
                         name.add(response.body().businesses().get(i).name());
-                        //System.out.println("add name " + name.toString());
                         rating.add(response.body().businesses().get(i).rating());
-                        //distance.add(MeterToMileConverter(response.body().businesses().get(i).distance()));
                         coordinates.add(new LatLng(
                                 response.body().businesses().get(i).location().coordinate().latitude(),
                                 response.body().businesses().get(i).location().coordinate().longitude()));
-
                         addresses.add(response.body().businesses().get(i).location().address());
-                        rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), img.get(i)));
                     }
 
                 }
@@ -263,17 +240,8 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             for(int i = 0; i < name.size(); i++){
                 rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i), img.get(i)));
             }
-            //System.out.println("rest " + rest.toString());
-
             return null;
         }
-    }
-
-    private double MeterToMileConverter(double meters){
-        double miles = meters/METER_MILE_CONVERSION;
-        DecimalFormat dFormat = new DecimalFormat();
-        dFormat.setMaximumFractionDigits(1);
-        return Double.valueOf(dFormat.format(miles));
     }
 
     public void addToSelection(int pos) {

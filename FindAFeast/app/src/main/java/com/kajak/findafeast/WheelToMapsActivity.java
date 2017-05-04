@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by Kyle Ho on 4/19/2017.
  */
 public class WheelToMapsActivity extends AppCompatActivity{
-    Button spin_btn, gothere_btn;
+    Button spin_btn, gothere_btn, start_over;
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
     Activity context;
     TextView name;
@@ -59,6 +59,15 @@ public class WheelToMapsActivity extends AppCompatActivity{
                 Intent goThere = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse("http://maps.google.com/maps?daddr="+rest_lat+","+rest_long));
                         startActivity(goThere);
+            }
+        });
+
+        start_over = (Button) this.findViewById(R.id.startOver);
+        start_over.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v){
+                Intent startOver = new Intent(WheelToMapsActivity.this, TagsActivity.class);
+                startActivity(startOver);
             }
         });
     }

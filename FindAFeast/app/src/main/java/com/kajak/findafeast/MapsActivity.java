@@ -158,7 +158,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markOpts.position(currLocation)
                 .title(rest.get(0).getName())
                 .snippet("Rating: "+Double.toString(rest.get(0).getRating()) +"/5")
-                //.snippet("Address: "+rest.get(0).getAddress())
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
         Marker yelpMarker = mMap.addMarker(markOpts);
         marker.add(yelpMarker);

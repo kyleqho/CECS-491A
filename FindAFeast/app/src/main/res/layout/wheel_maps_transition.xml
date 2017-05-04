@@ -3,15 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:text="Spin Again"
-        android:layout_width="wrap_content"
-        android:id="@+id/spin_again"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
     <ImageView
         android:id="@+id/icon"
         android:layout_width="300dp"
@@ -21,24 +12,44 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp" />
 
-    <Button
-        android:text="Go There Now"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/go_there"
-        android:layout_above="@+id/spin_again"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:id="@+id/restaurant_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:layout_marginLeft="10dp"
         android:padding="2dp"
-        android:textColor="#33CC33"
         android:layout_below="@+id/icon"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp" />
+
+    <Button
+        android:text="Start Over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/startOver"
+        android:layout_alignBaseline="@+id/spin_again"
+        android:layout_alignBottom="@+id/spin_again"
+        android:layout_toEndOf="@+id/spin_again" />
+
+    <Button
+        android:text="Spin Again"
+        android:layout_width="wrap_content"
+        android:id="@+id/spin_again"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/go_there"
+        android:layout_alignBottom="@+id/go_there"
+        android:layout_toEndOf="@+id/go_there" />
+
+    <Button
+        android:text="Go There Now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/go_there"
+        android:layout_marginTop="17dp"
+        android:layout_marginStart="27dp"
+        android:layout_below="@+id/restaurant_name"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
