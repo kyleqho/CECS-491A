@@ -7,9 +7,8 @@ package com.kajak.findafeast;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -87,9 +86,17 @@ public class TagsActivity extends AppCompatActivity {
         Button tag_btn = (Button) this.findViewById(R.id.next);
         tag_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
-                tagsToList.putStringArrayListExtra("tags", clicked_Tags);
-                startActivity(tagsToList);
+                Toast.makeText(getBaseContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable(){
+                    @Override
+                    public void run()
+                    {
+                        Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
+                        tagsToList.putStringArrayListExtra("tags", clicked_Tags);
+                        startActivity(tagsToList);
+                    }
+                }, 5000);
             }
         });
 

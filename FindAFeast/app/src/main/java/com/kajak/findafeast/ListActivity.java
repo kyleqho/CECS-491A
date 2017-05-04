@@ -2,16 +2,12 @@ package com.kajak.findafeast;
 
 import android.content.Intent;
 import android.content.IntentSender;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -84,7 +80,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
-
+        setTitle("Restaurant Selection");
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
                 getString(R.string.consumerSecret),
@@ -94,16 +90,16 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         //create yelp object
         mYelpAPI = mApiFactory.createAPI();
 
-        Intent reAddRestaurants = this.getIntent();
-        reAdd = reAddRestaurants.getParcelableArrayListExtra("selected");
-        if(reAdd != null)
-        {
-            for(int i =0;i<reAdd.size();i++) {
-                selectedRest.add(reAdd.get(i));
-            }
-        }
-        Intent intent = getIntent();
+//        Intent reAddRestaurants = this.getIntent();
+//        reAdd = reAddRestaurants.getParcelableArrayListExtra("selected");
+//        if(reAdd != null)
+//        {
+//            for(int i =0;i<reAdd.size();i++) {
+//                selectedRest.add(reAdd.get(i));
+//            }
+//        }
 
+        Intent intent = getIntent();
         temp = intent.getStringArrayListExtra("tags");
         System.out.println(temp);
         for (int i = 0; i < temp.size(); i++){
@@ -138,6 +134,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         else
         {
             Toast.makeText(this, "Nothing within the list!", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         btn2 = (Button) findViewById(R.id.backBtn);
