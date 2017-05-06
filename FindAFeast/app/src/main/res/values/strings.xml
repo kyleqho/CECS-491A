@@ -1,5 +1,5 @@
 <resources>
-    <color name="orange">#cef56817</color>
+    <color name="background">#f9f9f9</color>
 
     <string name="app_name">Find A Feast</string>
     <string name="consumerKey">bS_bqq2XMlZowRME0fZDDQ</string>

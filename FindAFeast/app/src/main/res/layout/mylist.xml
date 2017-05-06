@@ -23,7 +23,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:padding="2dp"
-            android:textColor="#33CC33" />
+            android:textColor="#212121" />
 
         <TextView
             android:id="@+id/restaurant_rating"
@@ -34,7 +34,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="4dp"
             android:padding="2dp"
-            android:textColor="#33CC50"/>
+            android:textColor="#757575"/>
 
         <TextView
             android:id="@+id/restaurant_distance"
@@ -45,7 +45,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginTop="2dp"
             android:padding="2dp"
-            android:textColor="#33CC50"/>
+            android:textColor="#757575"/>
 
     </LinearLayout>
 </LinearLayout>
