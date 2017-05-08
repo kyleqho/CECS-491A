@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -165,7 +166,8 @@ public class TagsActivity extends AppCompatActivity {
         Button clicked = (Button) findViewById(view.getId());
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
-        Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+        //Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+        Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
     }
 
     public void tapTag(String buttonText) {
