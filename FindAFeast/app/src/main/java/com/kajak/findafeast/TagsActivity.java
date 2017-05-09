@@ -44,6 +44,7 @@ public class TagsActivity extends AppCompatActivity {
     ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
     ArrayList<String> temp;
+    Snackbar currentTags;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,7 +133,8 @@ public class TagsActivity extends AppCompatActivity {
                 }
                 ViewGroup vg = (ViewGroup) view;
                 TextView tv = (TextView) vg.findViewById(R.id.text_item);
-                Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+                //Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+                Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
             }
         });
 
@@ -166,8 +168,10 @@ public class TagsActivity extends AppCompatActivity {
         Button clicked = (Button) findViewById(view.getId());
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
-        //Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
         Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
+
+        //Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
+
     }
 
     public void tapTag(String buttonText) {
@@ -200,7 +204,7 @@ public class TagsActivity extends AppCompatActivity {
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, subtags);
                 listView.setAdapter(adapter);
                 builder.setView(listView);
-
+                //Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
                 createListView(listView, builder);
                 return true;
             }
