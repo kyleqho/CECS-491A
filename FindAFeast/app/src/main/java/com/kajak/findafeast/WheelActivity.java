@@ -43,8 +43,10 @@ public class WheelActivity extends AppCompatActivity {
 
                 final WheelView wheel = (WheelView) findViewById(R.id.p1);
 
-                int dist =  (size * 30)+x;
-                wheel.scroll(dist,6000);
+                int rotations = 30;
+                int dist =  (size * rotations)+x;
+                int seconds = 6000;
+                wheel.scroll(dist, seconds);
 
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {

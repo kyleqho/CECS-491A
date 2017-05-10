@@ -55,11 +55,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     ArrayList<Map<String, String>> tags = new ArrayList<>();
     ArrayList<String> temp = new ArrayList<String>();
 
-    final float LOCATION_REFRESH = 10;
-    final long LOCATION_DISTANCE = 100;
-
-    LocationManager locationManager;
-
     private GoogleApiClient googleApiClient;
     private static final int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private LocationRequest locationRequest;
@@ -94,6 +89,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             tags.add(mParams);
         }
 
+        // Google API client to access locations
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -107,14 +103,14 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
         btn = (Button) findViewById(R.id.mapBtn);
 
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
-                    startWheel.putParcelableArrayListExtra("selected", selectedRest);
-                    startActivity(startWheel);
-                }
-            });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startWheel = new Intent(ListActivity.this, WheelActivity.class);
+                startWheel.putParcelableArrayListExtra("selected", selectedRest);
+                startActivity(startWheel);
+            }
+        });
 
 
 
@@ -157,8 +153,11 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onConnected(@Nullable Bundle bundle) throws SecurityException {
+        // Check to see if a location is cached
         Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
         if (lastLocation == null) {
+            // Use Google API to get the current location of the user
+            // The application must wait for current location to be found before continuing
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this).await();
         } else {
             handleNewLocation(lastLocation);
@@ -166,6 +165,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
         LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
 
+        // Query Yelp and get the restaurants
         try {
             new FetchPictures().execute().get();
         } catch (InterruptedException | ExecutionException ex) {
