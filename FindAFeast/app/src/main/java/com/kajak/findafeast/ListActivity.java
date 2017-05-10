@@ -2,6 +2,7 @@ package com.kajak.findafeast;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -178,7 +179,12 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(selectedRest.contains(rest.get(position))){
+                    view.setBackgroundColor(Color.WHITE);
+                } else
+                    view.setBackgroundColor(Color.GRAY);
                 addToSelection(position);
+
             }
         });
     }
@@ -225,20 +231,24 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 if (response != null) {
 
                     for (int i = 0; i < 5; i++) {
-                        img.add(response.body().businesses().get(i).imageUrl());
-                        name.add(response.body().businesses().get(i).name());
-                        rating.add(response.body().businesses().get(i).rating());
-                        coordinates.add(new LatLng(
-                                response.body().businesses().get(i).location().coordinate().latitude(),
-                                response.body().businesses().get(i).location().coordinate().longitude()));
-                        addresses.add(response.body().businesses().get(i).location().address());
+                        if(!name.contains(response.body().businesses().get(i).name())) {
+                            img.add(response.body().businesses().get(i).imageUrl());
+                            name.add(response.body().businesses().get(i).name());
+                            rating.add(response.body().businesses().get(i).rating());
+                            coordinates.add(new LatLng(
+                                    response.body().businesses().get(i).location().coordinate().latitude(),
+                                    response.body().businesses().get(i).location().coordinate().longitude()));
+                            addresses.add(response.body().businesses().get(i).location().address());
+                        }
                     }
 
                 }
                 tags.remove(0);
             }
             for(int i = 0; i < name.size(); i++){
+
                 rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i), img.get(i)));
+
             }
             return null;
         }
@@ -248,10 +258,12 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
             if (!selectedRest.contains(rest.get(pos))) {
                 Toast.makeText(this, "Added into list", Toast.LENGTH_SHORT).show();
-                selectedRest.add(rest.get(pos));
-            } else
-                Toast.makeText(this, "Already in list", Toast.LENGTH_SHORT).show();
 
+                selectedRest.add(rest.get(pos));
+            } else {
+                Toast.makeText(this, "Removing from list", Toast.LENGTH_SHORT).show();
+                selectedRest.remove(rest.get(pos));
+            }
         Log.v("test", selectedRest.toString());
     }
 }
