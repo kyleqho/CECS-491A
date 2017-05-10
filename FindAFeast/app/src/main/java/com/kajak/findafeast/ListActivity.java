@@ -77,6 +77,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
         setTitle("Restaurant Selection");
+        //Yelp Api keys
         mApiFactory = new YelpAPIFactory(
                 getString(R.string.consumerKey),
                 getString(R.string.consumerSecret),
@@ -89,18 +90,22 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         Intent intent = getIntent();
         temp = intent.getStringArrayListExtra("tags");
         System.out.println(temp);
+
+        //take tags from tag page. add to list to iterate through later
         for (int i = 0; i < temp.size(); i++){
             mParams = new HashMap<>();
             mParams.put("term", temp.get(i));
             tags.add(mParams);
         }
 
+        //google api
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
 
+        //get location
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_LOW_POWER)
                 .setInterval(5000)
@@ -108,6 +113,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
         btn = (Button) findViewById(R.id.mapBtn);
 
+        //go to next page
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -117,8 +123,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 }
             });
 
-
-
+        //go back one page
         btn2 = (Button) findViewById(R.id.backBtn);
         btn2.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -173,16 +178,19 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
             ex.printStackTrace();
         }
 
+        //adapter
         ListAdapter adapt = new ListAdapter(this, name, img, rating, addresses);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapt);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //highlight selection
                 if(selectedRest.contains(rest.get(position))){
                     view.setBackgroundColor(Color.WHITE);
                 } else
                     view.setBackgroundColor(Color.GRAY);
+                //add selection to arraylist
                 addToSelection(position);
 
             }
@@ -230,7 +238,9 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 if (response != null) {
 
+                    //find 5 restaurants for each tag
                     for (int i = 0; i < 5; i++) {
+                        //no repeated restaurants
                         if(!name.contains(response.body().businesses().get(i).name())) {
                             img.add(response.body().businesses().get(i).imageUrl());
                             name.add(response.body().businesses().get(i).name());
@@ -246,7 +256,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
                 tags.remove(0);
             }
             for(int i = 0; i < name.size(); i++){
-
+                //add restaurant to object
                 rest.add(new Restaurant(name.get(i), coordinates.get(i), addresses.get(i), rating.get(i), img.get(i)));
 
             }
@@ -255,15 +265,16 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     public void addToSelection(int pos) {
+        //add object to arraylist
+        if (!selectedRest.contains(rest.get(pos))) {
+            Toast.makeText(this, "Added into list", Toast.LENGTH_SHORT).show();
 
-            if (!selectedRest.contains(rest.get(pos))) {
-                Toast.makeText(this, "Added into list", Toast.LENGTH_SHORT).show();
-
-                selectedRest.add(rest.get(pos));
-            } else {
-                Toast.makeText(this, "Removing from list", Toast.LENGTH_SHORT).show();
-                selectedRest.remove(rest.get(pos));
-            }
+            selectedRest.add(rest.get(pos));
+        } else {
+            //remove object from arraylist
+            Toast.makeText(this, "Removing from list", Toast.LENGTH_SHORT).show();
+            selectedRest.remove(rest.get(pos));
+        }
         Log.v("test", selectedRest.toString());
     }
 }
