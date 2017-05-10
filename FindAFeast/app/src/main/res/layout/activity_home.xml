@@ -20,20 +20,13 @@
         android:textColor="#000000"
         android:textAlignment="center" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivLogo"
-        android:layout_below="@+id/tvName"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/doggy" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tap the screen to start"
+        android:text="Tap the button to start"
         android:id="@+id/btnStart"
-        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:onClick="onClick"/>
 
