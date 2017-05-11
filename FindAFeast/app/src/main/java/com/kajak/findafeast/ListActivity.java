@@ -136,6 +136,7 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
         });
 
         btn.setEnabled(false);
+        Toast.makeText(getBaseContext(), "Press any restaurant again to remove it from the list", Toast.LENGTH_LONG).show();
     }
 
     @Override

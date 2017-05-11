@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -106,10 +105,14 @@ public class TagsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clicked_Tags.clear();
                 Toast.makeText(getBaseContext(), "Tags have been cleared.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
                 next_btn.setEnabled(false);
             }
         });
         next_btn.setEnabled(false);
+
+        Toast.makeText(getBaseContext(), "Long press any tag to open more options", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Press any tag to remove it from the list", Toast.LENGTH_SHORT).show();
     }
 
     public void createListView(final ListView lv, AlertDialog.Builder build) {
@@ -131,8 +134,6 @@ public class TagsActivity extends AppCompatActivity {
                     view.setSelected(false);
                 }
                 ViewGroup vg = (ViewGroup) view;
-                TextView tv = (TextView) vg.findViewById(R.id.text_item);
-                //Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
                 Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
             }
         });
