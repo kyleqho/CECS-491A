@@ -124,25 +124,19 @@ public class TagsActivity extends AppCompatActivity {
                 String listViewItem = lv.getItemAtPosition(position).toString();
                 if(hm.get(listViewItem) == null) {
                     hm.put(listViewItem, 1);
-                    clicked_Tags.add(listViewItem);
+                    tapTag(listViewItem);
                     view.setBackgroundColor(Color.GRAY);
                     view.setSelected(true);
                 }
 
                 else {
                     hm.put(listViewItem, null);
-                    clicked_Tags.remove(listViewItem);
+                    tapTag(listViewItem);
                     view.setBackgroundColor(Color.WHITE);
                     view.setSelected(false);
                 }
                 ViewGroup vg = (ViewGroup) view;
                 Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
-                if(clicked_Tags.size() >= 2)
-                {
-                    next_btn.setEnabled(true);
-                }
-                else
-                    next_btn.setEnabled(false);
             }
         });
 
@@ -177,12 +171,6 @@ public class TagsActivity extends AppCompatActivity {
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
         Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
-        if(clicked_Tags.size() >= 2)
-        {
-            next_btn.setEnabled(true);
-        }
-        else
-            next_btn.setEnabled(false);
     }
 
     public void tapTag(String buttonText) {
@@ -192,6 +180,13 @@ public class TagsActivity extends AppCompatActivity {
         else {
             clicked_Tags.add(buttonText);
         }
+
+        if(clicked_Tags.size() >= 2)
+        {
+            next_btn.setEnabled(true);
+        }
+        else
+            next_btn.setEnabled(false);
     }
 
     @Override
