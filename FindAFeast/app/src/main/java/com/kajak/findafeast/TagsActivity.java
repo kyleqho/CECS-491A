@@ -99,6 +99,9 @@ public class TagsActivity extends AppCompatActivity {
             }
         });
 
+        if (clicked_Tags.size() < 2)
+            next_btn.setEnabled(false);
+
         Button clear_btn = (Button) this.findViewById(R.id.clear);
         clear_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +112,6 @@ public class TagsActivity extends AppCompatActivity {
                 next_btn.setEnabled(false);
             }
         });
-        next_btn.setEnabled(false);
 
         Toast.makeText(getBaseContext(), "Long press any tag to open more options", Toast.LENGTH_SHORT).show();
         Toast.makeText(getBaseContext(), "Press any tag to remove it from the list", Toast.LENGTH_SHORT).show();
@@ -135,6 +137,12 @@ public class TagsActivity extends AppCompatActivity {
                 }
                 ViewGroup vg = (ViewGroup) view;
                 Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
+                if(clicked_Tags.size() >= 2)
+                {
+                    next_btn.setEnabled(true);
+                }
+                else
+                    next_btn.setEnabled(false);
             }
         });
 
@@ -169,15 +177,12 @@ public class TagsActivity extends AppCompatActivity {
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
         Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
-        next_btn.setEnabled(false);
         if(clicked_Tags.size() >= 2)
         {
             next_btn.setEnabled(true);
         }
         else
             next_btn.setEnabled(false);
-        //Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
-
     }
 
     public void tapTag(String buttonText) {
