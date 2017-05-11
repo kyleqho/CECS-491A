@@ -35,12 +35,10 @@ public class ListAdapter extends ArrayAdapter<String> {
     public View getView(int position,View view,ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.mylist, null,true);
-
         TextView txtTitle = (TextView) rowView.findViewById(R.id.restaurant_name);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView txtRating = (TextView) rowView.findViewById(R.id.restaurant_rating);
         TextView txtDistance = (TextView) rowView.findViewById(R.id.restaurant_distance);
-
         txtTitle.setText(itemname.get(position));
         txtRating.setText("Rating: "+ rating.get(position).toString() +"/5");
         txtDistance.setText("Address: "+ address.get(position).toString());

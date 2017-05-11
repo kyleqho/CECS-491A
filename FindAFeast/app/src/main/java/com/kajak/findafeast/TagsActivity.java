@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -41,10 +40,9 @@ public class TagsActivity extends AppCompatActivity {
     private AlertDialog.Builder builder;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> clicked_Tags;
-    ArrayList<Restaurant> restaurant;
     private ActionBar actionBar;
     ArrayList<String> temp;
-    Snackbar currentTags;
+    Button next_btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +66,6 @@ public class TagsActivity extends AppCompatActivity {
             }
         }
 
-
         American = (Button) findViewById(R.id.button4);
         Asian = (Button) findViewById(R.id.button6);
         Latin = (Button) findViewById(R.id.button11);
@@ -85,8 +82,8 @@ public class TagsActivity extends AppCompatActivity {
         SetOnLongClickListener(Bars, getResources().getStringArray(R.array.Bars_Tags));
         SetOnLongClickListener(Desserts, getResources().getStringArray(R.array.Desserts_Tags));
 
-        Button tag_btn = (Button) this.findViewById(R.id.next);
-        tag_btn.setOnClickListener(new View.OnClickListener() {
+        next_btn = (Button) this.findViewById(R.id.next);
+        next_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(), "Loading...", Toast.LENGTH_SHORT).show();
                 final Handler handler = new Handler();
@@ -108,9 +105,14 @@ public class TagsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 clicked_Tags.clear();
                 Toast.makeText(getBaseContext(), "Tags have been cleared.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(v,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
+                next_btn.setEnabled(false);
             }
         });
+        next_btn.setEnabled(false);
 
+        Toast.makeText(getBaseContext(), "Long press any tag to open more options", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Press any tag to remove it from the list", Toast.LENGTH_SHORT).show();
     }
 
     public void createListView(final ListView lv, AlertDialog.Builder build) {
@@ -132,8 +134,6 @@ public class TagsActivity extends AppCompatActivity {
                     view.setSelected(false);
                 }
                 ViewGroup vg = (ViewGroup) view;
-                TextView tv = (TextView) vg.findViewById(R.id.text_item);
-                //Toast.makeText(getBaseContext(), listViewItem, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
                 Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
             }
         });
@@ -169,7 +169,13 @@ public class TagsActivity extends AppCompatActivity {
         String buttonText = clicked.getText().toString();
         tapTag(buttonText);
         Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
-
+        next_btn.setEnabled(false);
+        if(clicked_Tags.size() >= 2)
+        {
+            next_btn.setEnabled(true);
+        }
+        else
+            next_btn.setEnabled(false);
         //Toast.makeText(getBaseContext(), buttonText, Toast.LENGTH_SHORT).show(); //Toast message if button is tapped
 
     }

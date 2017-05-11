@@ -13,10 +13,10 @@
         android:textColor="#FFF"
         android:textSize="12sp"
         android:id="@+id/button2"
-        android:layout_marginBottom="41dp"
+        android:layout_marginBottom="73dp"
+        android:onClick="onClick"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button3"
-        android:onClick="onClick" />
+        android:layout_alignStart="@+id/button3" />
 
     <Button
         android:layout_width="70dp"
@@ -102,7 +102,6 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:id="@+id/next"
-        android:layout_alignBaseline="@+id/button2"
         android:layout_alignBottom="@+id/button2"
         android:layout_alignStart="@+id/button9" />
 
@@ -111,8 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/clear"
-        android:layout_alignBaseline="@+id/button2"
         android:layout_alignBottom="@+id/button2"
-        android:layout_centerHorizontal="true" />
+        android:layout_toEndOf="@+id/button3" />
 
 </RelativeLayout>
