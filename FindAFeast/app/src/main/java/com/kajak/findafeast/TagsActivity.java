@@ -201,6 +201,7 @@ public class TagsActivity extends AppCompatActivity {
         }
     }
 
+    // Helper method to attach long click functionality to any button
     private void SetOnLongClickListener(Button button, final String[] subtags) {
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -210,7 +211,6 @@ public class TagsActivity extends AppCompatActivity {
                 adapter = new ArrayAdapter<String>(TagsActivity.this, R.layout.list_item, R.id.text_item, subtags);
                 listView.setAdapter(adapter);
                 builder.setView(listView);
-                //Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
                 createListView(listView, builder);
                 return true;
             }

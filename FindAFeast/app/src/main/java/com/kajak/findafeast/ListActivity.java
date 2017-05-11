@@ -44,7 +44,6 @@ import retrofit2.Response;
 public class ListActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, LocationListener {
     ListView list;
-    LatLng current_position;
     double mLatitude;
     double mLongitude;
     ArrayList<String> name = new ArrayList<String>();
@@ -64,7 +63,6 @@ public class ListActivity extends AppCompatActivity implements GoogleApiClient.O
     YelpAPIFactory mApiFactory;
     YelpAPI mYelpAPI;
     Map<String, String> mParams;
-    MapsActivity mAct;
     Button btn;
     Button btn2;
 
