@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class WheelActivity extends AppCompatActivity {
-    // TODO: Externalize string-array
-    //String wheelMenu1[] = new String[]{"name 1", "name 2", "name 3", "name 4", "name 5", "name 6","name 7","name 8","name 9"};
     ArrayList<Restaurant> restaurants;
     ArrayList<Restaurant> selectedRest = new ArrayList<Restaurant>();
 
@@ -31,12 +29,19 @@ public class WheelActivity extends AppCompatActivity {
         restaurants = intent.getParcelableArrayListExtra("selected");
 
         initWheel(R.id.p1);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         final int size = restaurants.size();
+        final Button spin = (Button) this.findViewById(R.id.spin);
 
-        Button spin = (Button) this.findViewById(R.id.spin);
+        spin.setEnabled(true);
         spin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                spin.setEnabled(false);
                 selectedRest.clear();
                 Random r = new Random();
                 final int x =  r.nextInt(size);
