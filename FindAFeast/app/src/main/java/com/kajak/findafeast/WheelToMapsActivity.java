@@ -28,11 +28,16 @@ public class WheelToMapsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wheel_maps_transition);
-        setTitle("Choose Your Fate");
+        setTitle("Restaurant Confirmation");
+
+        //Gets the data previously sent to this activity
         Intent intent = this.getIntent();
         selectedRest = intent.getParcelableArrayListExtra("selected");
+
+        //Text view to display the name of the restaurant
         name = (TextView) findViewById(R.id.restaurant_name);
-        System.out.println("test");
+
+        //Gets the image of the restaurant from Yelp
         ImageView imageView = (ImageView) findViewById(R.id.icon);
 
 
@@ -41,7 +46,10 @@ public class WheelToMapsActivity extends AppCompatActivity{
                 .load(selectedRest.get(0).getImage())
                 .into(imageView);
 
+        //Gets the name of the restaurant
         name.setText(selectedRest.get(0).getName());
+
+        //If the user spins again, it goes back to the previous activity
         spin_btn = (Button) this.findViewById(R.id.spin_again);
         spin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +58,7 @@ public class WheelToMapsActivity extends AppCompatActivity{
             }
         });
 
+        //If the user goes there, it takes that user directly to Google directions
         gothere_btn = (Button) this.findViewById(R.id.go_there);
         gothere_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +71,7 @@ public class WheelToMapsActivity extends AppCompatActivity{
             }
         });
 
+        //Allows the user to start from the beginning of the application
         start_over = (Button) this.findViewById(R.id.startOver);
         start_over.setOnClickListener(new View.OnClickListener()
         {

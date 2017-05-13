@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TagsActivity extends AppCompatActivity {
+    //Creating variables to be used later.
+    //Each of the buttons are related to a specific tag
     static Button buttonClick;
     private Button American;
     private Button Asian;
@@ -48,24 +50,35 @@ public class TagsActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tags);
+
+        //Sets the title to of the activity
         setTitle("Tags");
+
+        //Creating a hashmap to be used to relate to each tag
         hm = new HashMap<String, Integer>();
-        builder = new AlertDialog.Builder(TagsActivity.this);
+
+        //Creating an arraylist to be used to store tags
         clicked_Tags = new ArrayList<String>();
+
+        //used to create a dialog box
+        builder = new AlertDialog.Builder(TagsActivity.this);
+
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
+        //Creation of a precondition intent to load pre-existing values back into the array list
         Intent preCondition = this.getIntent();
         temp = preCondition.getStringArrayListExtra("tags");
 
+        //As long as temp is not null, add the values back into the main array list
         if(temp != null) {
             for (int i = 0; i < temp.size(); i++) {
                 clicked_Tags.add(temp.get(i));
-                System.out.println(clicked_Tags.get(i));
             }
         }
 
+        //Creation of generalized subtags as buttons
         American = (Button) findViewById(R.id.button4);
         Asian = (Button) findViewById(R.id.button6);
         Latin = (Button) findViewById(R.id.button11);
@@ -74,6 +87,7 @@ public class TagsActivity extends AppCompatActivity {
         Bars = (Button) findViewById(R.id.button5);
         Desserts = (Button) findViewById(R.id.button9);
 
+        //Creation of subtags via a long click
         SetOnLongClickListener(American, getResources().getStringArray(R.array.American_Tags));
         SetOnLongClickListener(Asian, getResources().getStringArray(R.array.Asian_Tags));
         SetOnLongClickListener(Latin, getResources().getStringArray(R.array.Latin_Tags));
@@ -82,16 +96,20 @@ public class TagsActivity extends AppCompatActivity {
         SetOnLongClickListener(Bars, getResources().getStringArray(R.array.Bars_Tags));
         SetOnLongClickListener(Desserts, getResources().getStringArray(R.array.Desserts_Tags));
 
+        //Button that acts as the transition to the next activity
         next_btn = (Button) this.findViewById(R.id.next);
         next_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(), "Loading...", Toast.LENGTH_SHORT).show();
                 final Handler handler = new Handler();
+                //Delaying function
                 handler.postDelayed(new Runnable(){
                     @Override
                     public void run()
                     {
+                        //Intent created to pass onto the next activity
                         Intent tagsToList = new Intent(TagsActivity.this, ListActivity.class);
+                        //Passes in an array list to the next activity
                         tagsToList.putStringArrayListExtra("tags", clicked_Tags);
                         startActivity(tagsToList);
                     }
@@ -99,24 +117,29 @@ public class TagsActivity extends AppCompatActivity {
             }
         });
 
+        //Sets the next button to unclickable until there are at least two tags within the list
         if (clicked_Tags.size() < 2)
             next_btn.setEnabled(false);
 
+        //Button that clears the list that contains the tags
         Button clear_btn = (Button) this.findViewById(R.id.clear);
         clear_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clicked_Tags.clear();
                 Toast.makeText(getBaseContext(), "Tags have been cleared.", Toast.LENGTH_SHORT).show();
+                //Displays the current tags to the user
                 Snackbar.make(v,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
                 next_btn.setEnabled(false);
             }
         });
 
+        //Instructions for the user
         Toast.makeText(getBaseContext(), "Long press any tag to open more options", Toast.LENGTH_SHORT).show();
         Toast.makeText(getBaseContext(), "Press any tag to remove it from the list", Toast.LENGTH_SHORT).show();
     }
 
+    //Allows the tag to be highlighted if it has been selected
     public void createListView(final ListView lv, AlertDialog.Builder build) {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -136,10 +159,12 @@ public class TagsActivity extends AppCompatActivity {
                     view.setSelected(false);
                 }
                 ViewGroup vg = (ViewGroup) view;
+                //Shows the current items within the list
                 Snackbar.make(view,"Current tags:"+clicked_Tags,500).show();
             }
         });
 
+        //Option in the sub tags menus
         build.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -153,6 +178,8 @@ public class TagsActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Option to cancel the dialog box
         build.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -166,6 +193,7 @@ public class TagsActivity extends AppCompatActivity {
         dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
     }
 
+    //Onclick function that allows the buttons to be clicked and updates the list
     public void onClick(View view) {
         Button clicked = (Button) findViewById(view.getId());
         String buttonText = clicked.getText().toString();
@@ -173,6 +201,7 @@ public class TagsActivity extends AppCompatActivity {
         Snackbar.make(view,"Current tags:"+clicked_Tags,Snackbar.LENGTH_INDEFINITE).show();
     }
 
+    //Function that adds to the list as string values
     public void tapTag(String buttonText) {
         if(clicked_Tags.contains(buttonText)) {
             clicked_Tags.remove(buttonText);

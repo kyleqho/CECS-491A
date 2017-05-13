@@ -8,9 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -39,17 +36,8 @@ public class MainActivity extends AppCompatActivity{
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_PERMISSION_REQUEST);
         }
-
-
+        //Button that goes to the next activity
         mBtnStart = (Button) findViewById(R.id.btnStart);
-       // mIVLogo = (ImageView) findViewById(R.id.ivLogo);
-
-        //load image to home screen
-//        Picasso
-//                .with(this)
-//                .load("https://scontent-lax3-1.xx.fbcdn.net/v/t1.0-9/14906914_670103693146671_3815703461570936983_n.jpg?oh=d27a59e838eebc70f1f2f9412ec359b9&oe=590CA285")
-//                .into(mIVLogo);
-
         rest.clear();
     }
 
